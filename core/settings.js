@@ -88,19 +88,21 @@ export function mergeSettings(stored = {}) {
   };
 }
 
+export const SETTINGS_STORAGE_KEY = 'correctorAiSettings';
+
 export async function loadSettings() {
   if (typeof chrome === 'undefined' || !chrome.storage?.local) {
     return { ...DEFAULT_SETTINGS };
   }
-  const res = await chrome.storage.local.get('zhorthoSettings');
-  return mergeSettings(res.zhorthoSettings || {});
+  const res = await chrome.storage.local.get([SETTINGS_STORAGE_KEY, 'zhorthoSettings']);
+  return mergeSettings(res[SETTINGS_STORAGE_KEY] || res.zhorthoSettings || {});
 }
 
 export async function saveSettings(partial) {
   const current = await loadSettings();
   const next = mergeSettings({ ...current, ...partial });
   if (typeof chrome !== 'undefined' && chrome.storage?.local) {
-    await chrome.storage.local.set({ zhorthoSettings: next });
+    await chrome.storage.local.set({ [SETTINGS_STORAGE_KEY]: next });
   }
   return next;
 }

@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "Corrector Ai — 本地中文及粵文正字校對",
+    "description": "Traditional Chinese extension name."
+  },
+  "extDescription": {
+    "message": "100% 本地運行的繁簡中文及粵文正字、地區詞彙與語法校對擴充功能，支援網頁文字框即時標記與本機 Gemini Nano AI。",
+    "description": "Traditional Chinese extension description."
+  },
+  "actionTitle": {
+    "message": "Corrector Ai 設定",
+    "description": "Tooltip for toolbar icon."
+  }
+}

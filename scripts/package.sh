@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 DIST_DIR="${REPO_ROOT}/dist"
 VERSION="$(node -p "require('${REPO_ROOT}/manifest.json').version")"
-OUT_ZIP="${DIST_DIR}/zhortho-extension-v${VERSION}.zip"
+OUT_ZIP="${DIST_DIR}/corrector-ai-v${VERSION}.zip"
 
 mkdir -p "${DIST_DIR}"
 rm -f "${OUT_ZIP}"
@@ -15,6 +15,7 @@ zip -r "${OUT_ZIP}" \
   manifest.json \
   LICENSE \
   PRIVACY.md \
+  _locales \
   background \
   content \
   core \
@@ -24,4 +25,4 @@ zip -r "${OUT_ZIP}" \
   popup \
   sidepanel
 
-echo "Packaged ${OUT_ZIP}"
+echo "Packaged Chrome Web Store upload archive: ${OUT_ZIP}"

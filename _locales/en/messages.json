@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "Corrector Ai — Chinese & Cantonese Checker",
+    "description": "Extension name shown in Chrome Web Store and browser toolbar (max 45 chars)."
+  },
+  "extDescription": {
+    "message": "100% local Chinese & Cantonese orthography, regional lexicon & grammar checker for text fields with on-device Gemini Nano AI.",
+    "description": "Extension summary shown in Chrome Web Store (max 132 chars)."
+  },
+  "actionTitle": {
+    "message": "Corrector Ai Settings",
+    "description": "Tooltip for the browser action toolbar icon."
+  }
+}

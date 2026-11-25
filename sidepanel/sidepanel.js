@@ -320,11 +320,11 @@ function renderDictionary() {
 
 async function consumePendingSelection() {
   if (!chrome.storage?.local) return;
-  const data = await chrome.storage.local.get('zhorthoPendingSelection');
-  const pending = data.zhorthoPendingSelection;
+  const data = await chrome.storage.local.get('correctorAiPendingSelection');
+  const pending = data.correctorAiPendingSelection;
   if (pending?.text && Date.now() - pending.timestamp < 30000) {
     chkInput.value = pending.text;
-    await chrome.storage.local.remove('zhorthoPendingSelection');
+    await chrome.storage.local.remove('correctorAiPendingSelection');
     runCheckerAudit();
   }
 }
@@ -415,11 +415,11 @@ async function init() {
 
   chrome.storage?.onChanged?.addListener((changes, area) => {
     if (area !== 'local') return;
-    if (changes.zhorthoSettings?.newValue) {
-      settings = changes.zhorthoSettings.newValue;
+    if (changes.correctorAiSettings?.newValue) {
+      settings = changes.correctorAiSettings.newValue;
       renderDictionary();
     }
-    if (changes.zhorthoPendingSelection?.newValue?.text) {
+    if (changes.correctorAiPendingSelection?.newValue?.text) {
       consumePendingSelection();
     }
   });

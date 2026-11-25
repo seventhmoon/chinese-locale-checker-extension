@@ -1,5 +1,5 @@
 /**
- * ZhOrtho In-Page Grammar, Orthography & Locale Checker (Content Script).
+ * Corrector Ai — In-Page Grammar, Orthography & Locale Checker (Content Script).
  *
  * Monitors <textarea>, text <input>, and contenteditable fields.
  * - Deterministic 4-axis Chinese & Cantonese rules run instantaneously in-page.
@@ -11,8 +11,8 @@
  */
 
 (() => {
-  if (window.__ZHORTHO_CONTENT_LOADED__) return;
-  window.__ZHORTHO_CONTENT_LOADED__ = true;
+  if (window.__CORRECTOR_AI_LOADED__) return;
+  window.__CORRECTOR_AI_LOADED__ = true;
 
   const SUPPORTED_INPUT_TYPES = new Set(['', 'text', 'search', 'email', 'url']);
   const PROFILE_SHORT = {
@@ -75,8 +75,8 @@
 
   function isEditableElement(el) {
     if (!el || el.nodeType !== Node.ELEMENT_NODE) return false;
-    if (el.closest?.('#zhortho-shadow-host')) return false;
-    if (el.getAttribute?.('data-zhortho-ignore') === 'true') return false;
+    if (el.closest?.('#corrector-ai-shadow-host')) return false;
+    if (el.getAttribute?.('data-corrector-ai-ignore') === 'true') return false;
 
     const tag = el.tagName;
     if (tag === 'TEXTAREA') {
@@ -206,7 +206,7 @@
     if (shadowHost && document.documentElement.contains(shadowHost)) return;
 
     shadowHost = document.createElement('div');
-    shadowHost.id = 'zhortho-shadow-host';
+    shadowHost.id = 'corrector-ai-shadow-host';
     shadowHost.style.cssText =
       'position:fixed;top:0;left:0;width:0;height:0;z-index:2147483645;pointer-events:none;';
     shadowRoot = shadowHost.attachShadow({ mode: 'open' });
@@ -531,7 +531,7 @@
     pillBtn = document.createElement('button');
     pillBtn.type = 'button';
     pillBtn.className = 'zh-pill zh-pill-clean';
-    pillBtn.title = 'ZhOrtho Local Chinese & Cantonese Checker';
+    pillBtn.title = 'Corrector Ai — Local Chinese & Cantonese Checker';
     pillBtn.addEventListener('mousedown', (e) => {
       e.preventDefault(); // Keep focus in the text field
     });
@@ -946,7 +946,7 @@
     const header = document.createElement('div');
     header.className = 'zh-pop-header';
     header.innerHTML = `
-      <span class="zh-pop-title">ZhOrtho Suggestion <span class="zh-badge zh-badge-local">100% Local</span></span>
+      <span class="zh-pop-title">Corrector Ai <span class="zh-badge zh-badge-local">100% Local</span></span>
       <button type="button" class="zh-close-btn" aria-label="Close">×</button>
     `;
     header.querySelector('.zh-close-btn').addEventListener('click', () => closePopover());
@@ -979,7 +979,7 @@
     header.className = 'zh-pop-header';
     header.innerHTML = `
       <span class="zh-pop-title">
-        ZhOrtho 正字校對
+        Corrector Ai 正字校對
         <span class="zh-badge zh-badge-local">Local</span>
       </span>
       <button type="button" class="zh-close-btn" aria-label="Close">×</button>
@@ -1428,8 +1428,8 @@
 
   // Sync settings changes live from Popup / Side Panel
   chrome.storage?.onChanged?.addListener((changes, area) => {
-    if (area === 'local' && changes.zhorthoSettings?.newValue) {
-      settings = changes.zhorthoSettings.newValue;
+    if (area === 'local' && changes.correctorAiSettings?.newValue) {
+      settings = changes.correctorAiSettings.newValue;
       lastNanoCheckedText = '';
       dismissedIds.clear();
       if (!settings.enabled || isHostDisabled()) {

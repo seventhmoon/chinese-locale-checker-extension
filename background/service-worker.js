@@ -1,5 +1,5 @@
 /**
- * ZhOrtho Manifest V3 Background Service Worker.
+ * Corrector Ai — Manifest V3 Background Service Worker.
  *
  * Handles:
  * - Local settings persistence (chrome.storage.local)
@@ -103,13 +103,13 @@ function setupContextMenus() {
   if (!chrome.contextMenus) return;
   chrome.contextMenus.removeAll(() => {
     chrome.contextMenus.create({
-      id: 'zhortho-check-selection',
-      title: 'Check Chinese / Cantonese with ZhOrtho',
+      id: 'corrector-ai-check-selection',
+      title: 'Check Chinese / Cantonese with Corrector Ai',
       contexts: ['selection', 'editable']
     });
     chrome.contextMenus.create({
-      id: 'zhortho-open-sidepanel',
-      title: 'Open ZhOrtho Workbench (Localizer & Glossary)',
+      id: 'corrector-ai-open-sidepanel',
+      title: 'Open Corrector Ai Workbench (Localizer & Glossary)',
       contexts: ['page', 'selection', 'editable']
     });
   });
@@ -125,10 +125,10 @@ chrome.runtime.onStartup.addListener(() => {
 });
 
 chrome.contextMenus?.onClicked.addListener(async (info, tab) => {
-  if (info.menuItemId === 'zhortho-check-selection') {
+  if (info.menuItemId === 'corrector-ai-check-selection') {
     if (info.selectionText) {
       await chrome.storage.local.set({
-        zhorthoPendingSelection: {
+        correctorAiPendingSelection: {
           text: info.selectionText,
           timestamp: Date.now()
         }
@@ -144,7 +144,7 @@ chrome.contextMenus?.onClicked.addListener(async (info, tab) => {
         }
       }
     }
-  } else if (info.menuItemId === 'zhortho-open-sidepanel') {
+  } else if (info.menuItemId === 'corrector-ai-open-sidepanel') {
     if (tab?.windowId && chrome.sidePanel?.open) {
       await chrome.sidePanel.open({ windowId: tab.windowId }).catch(() => {});
     }

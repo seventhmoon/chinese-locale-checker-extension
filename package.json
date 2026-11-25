@@ -1,8 +1,8 @@
 {
-  "name": "chinese-locale-checker-extension",
+  "name": "corrector-ai-extension",
   "version": "1.0.0",
   "type": "module",
-  "description": "100% local Chrome extension for Chinese & Cantonese orthography, regional lexicon, and grammar checking in text fields with optional on-device Gemini Nano AI.",
+  "description": "Corrector Ai — 100% local Chrome extension for Chinese & Cantonese orthography, regional lexicon, and grammar checking in text fields with optional on-device Gemini Nano AI.",
   "scripts": {
     "test": "node --test test/*.test.mjs",
     "package": "bash scripts/package.sh",
@@ -14,6 +14,7 @@
   },
   "homepage": "https://github.com/seventhmoon/chinese-locale-checker-extension#readme",
   "keywords": [
+    "corrector-ai",
     "chrome-extension",
     "manifest-v3",
     "chinese",

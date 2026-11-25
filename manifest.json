@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "ZhOrtho — Local Chinese & Cantonese Checker",
+  "name": "__MSG_extName__",
   "version": "1.0.0",
-  "description": "100% local Chinese & Cantonese orthography, regional lexicon, and grammar checker for web text fields with optional on-device Gemini Nano AI.",
+  "default_locale": "en",
+  "description": "__MSG_extDescription__",
   "icons": {
     "16": "icons/icon16.png",
     "32": "icons/icon32.png",
@@ -11,7 +12,7 @@
   },
   "action": {
     "default_popup": "popup/popup.html",
-    "default_title": "ZhOrtho — Local Chinese & Cantonese Checker",
+    "default_title": "__MSG_actionTitle__",
     "default_icon": {
       "16": "icons/icon16.png",
       "32": "icons/icon32.png",
@@ -40,8 +41,7 @@
     {
       "matches": [
         "https://*/*",
-        "http://*/*",
-        "file://*/*"
+        "http://*/*"
       ],
       "js": [
         "content/content.js"
@@ -63,8 +63,7 @@
       ],
       "matches": [
         "https://*/*",
-        "http://*/*",
-        "file://*/*"
+        "http://*/*"
       ]
     }
   ]

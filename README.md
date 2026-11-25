@@ -1,8 +1,8 @@
-# ZhOrtho — Local Chinese & Cantonese Checker (Chrome Extension)
+# Corrector Ai — Local Chinese & Cantonese Checker (Chrome Extension)
 
 [![CI](https://github.com/seventhmoon/chinese-locale-checker-extension/actions/workflows/ci.yml/badge.svg)](https://github.com/seventhmoon/chinese-locale-checker-extension/actions/workflows/ci.yml)
 
-A **100% local, zero-cloud** Manifest V3 Chrome extension for real-time **Chinese (`zh-*`)** and **Written Cantonese (`yue-Hant-HK`)** orthography, regional lexicon, and grammar checking inside web text fields (`<input>`, `<textarea>`, and `contenteditable`), built directly on the rule shards of [`seventhmoon/chinese-locale-and-orthography`](https://github.com/seventhmoon/chinese-locale-and-orthography) with an **optional on-device Chrome Gemini Nano AI** layer.
+A **100% local, zero-cloud** Manifest V3 Chrome extension for real-time **Chinese (`zh-*`)** and **Written Cantonese (`yue-Hant-HK`)** orthography, regional lexicon, and grammar checking inside web text fields (`<input>`, `<textarea>`, and `contenteditable`), powered by the rule shards of [`seventhmoon/chinese-locale-and-orthography`](https://github.com/seventhmoon/chinese-locale-and-orthography) and an **optional on-device Chrome Gemini Nano AI** layer.
 
 ## Key Features
 
@@ -17,7 +17,7 @@ A **100% local, zero-cloud** Manifest V3 Chrome extension for real-time **Chines
   - **Checks Included**: Japanese Kanji / Shinjitai / Kokuji bleed (`値`/`歩`/`黒`/`税込`/`読込`/`注文確認`/`の`), 1-to-many `Hans → Hant` conversion traps (`發`/`髮`, `後`/`后`, `乾`/`幹`/`干`, `復`/`複`, `歷`/`曆`, `請稍候`), collocations (`迫`/`逼`, `截至`/`截止`, `必須`/`必需`, `登入`/`登陸`, `您們`), regional vocabulary (`軟件`/`軟體`, `記憶體`/`内存`, `快取`/`缓存`, `的士`/`計程車`), official statutory/toponym translations (`私隱政策`/`隱私權政策`, `東盟`/`東協`/`亚细安`), and formal SWC Cantonese leaks & syntactic calques (`走先`, `好過預期`, `給一份報告我`).
   - **Protected Carve-Outs**: Automatically protects domestic agency titles (`香港個人資料（私隱）專員公署`), local streets (`中環荷里活道`), statutory names (`香港身份證`), book/statute titles (`《…》`), culinary homographs (`冰糖燉雪梨`), Kana/Hangul spans, and placeholders (`%1$s`, `{var}`).
 - **Optional On-Device Gemini Nano AI (Chrome Built-in AI)**:
-  - Toggle **Use Local Gemini Nano** in the extension popup to layer contextual grammar, homophone (`在`/`再`, `的`/`得`/`地`), and phrasing checks using Chrome's built-in `LanguageModel` Prompt API (Gemini Nano).
+  - Toggle **Use Local Gemini Nano** in the extension popup to layer contextual grammar, homophone (`在`/`再`, `的`/`得`/`地`), and phrasing checks using Chrome's built-in `LanguageModel` Prompt API (Chrome 138+ desktop).
   - Supports **Auto (after typing pause)** or **Manual (`✦ Gemini Nano` button)** trigger modes, live model download progress, and automatic Offscreen Document fallback when a Document context is required.
   - Deterministic rules remain authoritative for exact codepoints (`裏`/`裡`, `温`/`溫`, `値`/`值`), and Gemini Nano suggestions are strictly validated against the source text and protected carve-outs.
 - **Built-in Side Panel Workbench**:
@@ -41,49 +41,28 @@ A **100% local, zero-cloud** Manifest V3 Chrome extension for real-time **Chines
    ```
 2. Open Chrome (`chrome://extensions`).
 3. Enable **Developer mode** (top-right toggle).
-4. Click **Load unpacked** and select the cloned `chinese-locale-checker-extension` folder.
-5. Open [`demo/test-page.html`](demo/test-page.html) (enable *"Allow access to file URLs"* in extension details, or serve locally via `python3 -m http.server`) and click into any text field to try inline underlines and popovers immediately.
+4. Click **Load unpacked** and select the cloned folder.
+5. Serve [`demo/test-page.html`](demo/test-page.html) locally (e.g., `python3 -m http.server 8000` then open `http://localhost:8000/demo/test-page.html`) and click into any text field to try inline underlines and popovers immediately.
 
 ## Enabling Local Gemini Nano (Optional)
 
 Chrome's built-in Prompt API (`LanguageModel`) runs Gemini Nano locally on **Chrome 138+ Desktop** (Windows 10/11, macOS 13+, Linux, or Chromebook Plus with ≥ 4 GB VRAM or ≥ 16 GB RAM & 4+ CPU cores, and ≥ 22 GB free disk space):
 
-1. Open `chrome://flags/#prompt-api-for-gemini-nano` and set it to **Enabled** (if not already enabled by default in your Chrome version).
+1. Open `chrome://flags/#prompt-api-for-gemini-nano` and set it to **Enabled** (if not already enabled by default).
 2. Open `chrome://flags/#optimization-guide-on-device-model` and set it to **Enabled BypassPerfRequirement** (if needed) and restart Chrome.
-3. Click the **ZhOrtho** toolbar icon, toggle **Use Local Gemini Nano**, and click **Download / Prepare Model** if the status shows `Downloadable`.
-4. You can inspect Chrome's local model state anytime at `chrome://on-device-internals`.
+3. Click the **Corrector Ai** toolbar icon, toggle **Use Local Gemini Nano**, and click **Download / Prepare Model** if the status shows `Downloadable`.
+4. Inspect Chrome's local model status anytime at `chrome://on-device-internals`.
 
-## Repository Layout
+## Publishing to the Chrome Web Store
 
-```text
-chinese-locale-checker-extension/
-├── manifest.json                   # MV3 manifest (connect-src 'self', zero external hosts)
-├── core/
-│   ├── zh-audit-engine.js          # Zero-dependency JS port of chinese-locale-and-orthography
-│   ├── nano-client.js              # On-device Chrome Built-in AI (Gemini Nano) client
-│   ├── settings.js                 # Local storage preferences & 4-axis profile metadata
-│   └── shards-loader.js            # Local bundled JSON shard loader
-├── data/                           # Modular JSON rule shards synced from the skill
-│   ├── profiles_and_code.json
-│   ├── orthography_and_glyphs.json
-│   ├── cantonese.json
-│   ├── regional_lexicon.json
-│   └── official_translations.json
-├── content/
-│   └── content.js                  # Shadow DOM underlines, floating pill & popover UI
-├── background/
-│   └── service-worker.js           # Settings, context menus & local Gemini Nano routing
-├── offscreen/
-│   ├── offscreen.html              # Offscreen document fallback host for Gemini Nano
-│   └── offscreen.js
-├── popup/                          # Toolbar settings & Gemini Nano status/download UI
-├── sidepanel/                      # Workbench (Checker, Multi-Locale Localizer, Glossary, Ignored)
-├── demo/
-│   └── test-page.html              # Interactive local test page (<input>, <textarea>, contenteditable)
-├── scripts/
-│   ├── sync-skill-data.sh          # Sync updated JSON shards from chinese-locale-and-orthography
-│   └── package.sh                  # Package Chrome Web Store zip archive
-└── test/                           # Node 22 unit, skill-parity, Nano mock & privacy tests
+See [CHROMEWEBSTORE.md](CHROMEWEBSTORE.md) for the complete submission kit—including localized store copy (`_locales/en`, `_locales/zh_TW`, `_locales/zh_CN`), permissions justifications, zero-data privacy disclosures, and ready-to-upload promotional tiles & screenshots in `promo/`.
+
+```bash
+# Run full unit, parity, Gemini Nano mock, CWS asset & privacy test suite
+npm test
+
+# Build Chrome Web Store upload zip (dist/corrector-ai-v1.0.0.zip)
+npm run package
 ```
 
 ## Syncing Rule Shards from the Skill
@@ -93,16 +72,6 @@ Whenever [`seventhmoon/chinese-locale-and-orthography`](https://github.com/seven
 ```bash
 bash scripts/sync-skill-data.sh /path/to/chinese-locale-and-orthography
 npm test
-```
-
-## Running Tests & Packaging
-
-```bash
-# Run full unit, parity, Gemini Nano mock & local-only privacy test suite (Node 22+)
-npm test
-
-# Build Chrome Web Store zip package into dist/
-npm run package
 ```
 
 ## License

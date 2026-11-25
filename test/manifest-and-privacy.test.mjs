@@ -50,6 +50,16 @@ test('manifest.json is valid MV3, references existing assets, and enforces local
       assert.ok(fs.existsSync(path.join(REPO_ROOT, resPath)), `Missing web_accessible_resource: ${resPath}`);
     }
   }
+
+  // Validate Chrome Web Store _locales and character limits
+  assert.equal(manifest.default_locale, 'en');
+  for (const locale of ['en', 'zh_TW', 'zh_CN']) {
+    const msgPath = path.join(REPO_ROOT, '_locales', locale, 'messages.json');
+    assert.ok(fs.existsSync(msgPath), `Missing locale file: ${msgPath}`);
+    const msgs = JSON.parse(fs.readFileSync(msgPath, 'utf8'));
+    assert.ok(msgs.extName?.message.length > 0 && msgs.extName.message.length <= 45, `${locale} extName must be <= 45 chars`);
+    assert.ok(msgs.extDescription?.message.length > 0 && msgs.extDescription.message.length <= 132, `${locale} extDescription must be <= 132 chars`);
+  }
 });
 
 test('extension source code makes zero outbound external network calls', () => {
