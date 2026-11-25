@@ -1,0 +1,179 @@
+{
+  "schema_version": "1.0.0",
+  "description": "Written Cantonese (粵文) orthography rules (LSHK Jyutping 正字 vs. commercial UI conventional forms), Standard Written Chinese (書面語) Cantonese leak detectors, B2C HK consumer voice relaxations, and Cantonese syntactic calque patterns.",
+  "formal_swc_cantonese_leaks": {
+    "strict_tokens": [
+      {"token": "佢哋", "suggestion_hant": "他們", "suggestion_hans": "他们", "rationale": "Colloquial Cantonese 3rd-person plural pronoun in formal Standard Written Chinese."},
+      {"token": "我哋", "suggestion_hant": "我們", "suggestion_hans": "我们", "rationale": "Colloquial Cantonese 1st-person plural pronoun in formal Standard Written Chinese."},
+      {"token": "你哋", "suggestion_hant": "你們", "suggestion_hans": "你们", "rationale": "Colloquial Cantonese 2nd-person plural pronoun in formal Standard Written Chinese."},
+      {"token": "佢", "suggestion_hant": "他／她／它", "suggestion_hans": "他／她／它", "rationale": "Colloquial Cantonese 3rd-person pronoun in formal Standard Written Chinese."},
+      {"token": "係咪", "suggestion_hant": "是不是／是否", "suggestion_hans": "是不是／是否", "rationale": "Colloquial Cantonese A-not-A copula in formal Standard Written Chinese."},
+      {"token": "唔係", "suggestion_hant": "不是", "suggestion_hans": "不是", "rationale": "Colloquial Cantonese negated copula in formal Standard Written Chinese."},
+      {"token": "唔該", "suggestion_hant": "請／謝謝", "suggestion_hans": "请／谢谢", "rationale": "Colloquial Cantonese politeness marker in formal Standard Written Chinese."},
+      {"token": "唔好", "suggestion_hant": "不要／請勿", "suggestion_hans": "不要／请勿", "rationale": "Colloquial Cantonese prohibitive in formal Standard Written Chinese."},
+      {"token": "冇", "suggestion_hant": "沒有／無", "suggestion_hans": "没有／无", "rationale": "Colloquial Cantonese existential negation in formal Standard Written Chinese."},
+      {"token": "喺", "suggestion_hant": "在", "suggestion_hans": "在", "rationale": "Colloquial Cantonese locative preposition in formal Standard Written Chinese."},
+      {"token": "點樣", "suggestion_hant": "怎樣／如何", "suggestion_hans": "怎样／如何", "rationale": "Colloquial Cantonese manner interrogative in formal Standard Written Chinese."},
+      {"token": "點解", "suggestion_hant": "為甚麼／為何", "suggestion_hans": "为什么／为何", "rationale": "Colloquial Cantonese causal interrogative in formal Standard Written Chinese."},
+      {"token": "邊個", "suggestion_hant": "誰／哪一個", "suggestion_hans": "谁／哪一个", "rationale": "Colloquial Cantonese interrogative pronoun in formal Standard Written Chinese."},
+      {"token": "邊度", "suggestion_hant": "哪裏／哪裡", "suggestion_hans": "哪里", "rationale": "Colloquial Cantonese locative interrogative in formal Standard Written Chinese."},
+      {"token": "乜嘢", "suggestion_hant": "甚麼／什麼", "suggestion_hans": "什么", "rationale": "Colloquial Cantonese interrogative in formal Standard Written Chinese."},
+      {"token": "嗰個", "suggestion_hant": "那個", "suggestion_hans": "那个", "rationale": "Colloquial Cantonese distal demonstrative in formal Standard Written Chinese."},
+      {"token": "嗰啲", "suggestion_hant": "那些", "suggestion_hans": "那些", "rationale": "Colloquial Cantonese plural distal demonstrative in formal Standard Written Chinese."},
+      {"token": "呢個", "suggestion_hant": "這個", "suggestion_hans": "这个", "rationale": "Colloquial Cantonese proximal demonstrative in formal Standard Written Chinese."},
+      {"token": "呢啲", "suggestion_hant": "這些", "suggestion_hans": "这些", "rationale": "Colloquial Cantonese plural proximal demonstrative in formal Standard Written Chinese."},
+      {"token": "噉樣", "suggestion_hant": "這樣", "suggestion_hans": "这样", "rationale": "Colloquial Cantonese manner demonstrative in formal Standard Written Chinese."},
+      {"token": "咁樣", "suggestion_hant": "這樣", "suggestion_hans": "这样", "rationale": "Colloquial Cantonese manner demonstrative in formal Standard Written Chinese."},
+      {"token": "仲未", "suggestion_hant": "尚未／還沒", "suggestion_hans": "尚未／还没", "rationale": "Colloquial Cantonese temporal adverb in formal Standard Written Chinese."},
+      {"token": "仲有", "suggestion_hant": "還有", "suggestion_hans": "还有", "rationale": "Colloquial Cantonese additive adverb in formal Standard Written Chinese."},
+      {"token": "頭先", "suggestion_hant": "剛才", "suggestion_hans": "刚才", "rationale": "Colloquial Cantonese temporal noun in formal Standard Written Chinese."},
+      {"token": "而家", "suggestion_hant": "現在／目前", "suggestion_hans": "现在／目前", "rationale": "Colloquial Cantonese temporal noun in formal Standard Written Chinese."},
+      {"token": "聽日", "suggestion_hant": "明天／明日", "suggestion_hans": "明天／明日", "rationale": "Colloquial Cantonese temporal noun in formal Standard Written Chinese."},
+      {"token": "尋日", "suggestion_hant": "昨天／昨日", "suggestion_hans": "昨天／昨日", "rationale": "Colloquial Cantonese temporal noun in formal Standard Written Chinese."},
+      {"token": "琴日", "suggestion_hant": "昨天／昨日", "suggestion_hans": "昨天／昨日", "rationale": "Colloquial Cantonese temporal noun in formal Standard Written Chinese."},
+      {"token": "緊要", "suggestion_hant": "重要／要緊", "suggestion_hans": "重要／要紧", "rationale": "Cantonese regionalism ('緊要') in formal Standard Written Chinese."},
+      {"token": "撳掣", "suggestion_hant": "按鈕／按下按鈕", "suggestion_hans": "按钮／按下按钮", "rationale": "Colloquial Cantonese verb-object compound in formal Standard Written Chinese."},
+      {"token": "揀嘢", "suggestion_hant": "挑選物品", "suggestion_hans": "挑选物品", "rationale": "Colloquial Cantonese verb-object compound in formal Standard Written Chinese."},
+      {"token": "瞓覺", "suggestion_hant": "睡覺", "suggestion_hans": "睡觉", "rationale": "Colloquial Cantonese verb in formal Standard Written Chinese."},
+      {"token": "食晒", "suggestion_hant": "吃完", "suggestion_hans": "吃完", "rationale": "Colloquial Cantonese verb + completive particle in formal Standard Written Chinese."},
+      {"token": "嘥時間", "suggestion_hant": "浪費時間", "suggestion_hans": "浪费时间", "rationale": "Colloquial Cantonese verb-object phrase in formal Standard Written Chinese."},
+      {"token": "呃錢", "suggestion_hant": "騙錢／詐騙金錢", "suggestion_hans": "骗钱／诈骗金钱", "rationale": "Colloquial Cantonese phrase in formal Standard Written Chinese."},
+      {"token": "早唞", "suggestion_hant": "晚安", "suggestion_hans": "晚安", "rationale": "Colloquial Cantonese greeting in formal Standard Written Chinese."},
+      {"token": "亂噏", "suggestion_hant": "胡說", "suggestion_hans": "胡说", "rationale": "Colloquial Cantonese expression in formal Standard Written Chinese."},
+      {"token": "山卡罅", "suggestion_hant": "偏僻之地", "suggestion_hans": "偏僻之地", "rationale": "Colloquial Cantonese idiom in formal Standard Written Chinese."},
+      {"token": "㗎", "suggestion_hant": "的", "suggestion_hans": "的", "rationale": "Cantonese sentence-final particle in formal Standard Written Chinese."},
+      {"token": "啩", "suggestion_hant": "吧", "suggestion_hans": "吧", "rationale": "Cantonese conjectural particle in formal Standard Written Chinese."},
+      {"token": "喎", "suggestion_hant": "呢／啊", "suggestion_hans": "呢／啊", "rationale": "Cantonese mirative/reported particle in formal Standard Written Chinese."},
+      {"token": "啫", "suggestion_hant": "而已／罷了", "suggestion_hans": "而已／罢了", "rationale": "Cantonese restrictive particle in formal Standard Written Chinese."}
+    ],
+    "b2c_hk_consumer_relaxations": [
+      {
+        "token": "下次先",
+        "formal_replacement": "稍後再說",
+        "rationale": "Colloquial HK dismissal CTA; flagged as CERTAIN in official/educational formal_swc, relaxed to CONTEXT_DEPENDENT advisory in B2C consumer HK UI (--standard ui)."
+      },
+      {
+        "token": "多買多慳",
+        "formal_replacement": "多買多省",
+        "rationale": "Cantonese promotional phrase ('慳' = save money); flagged in strict formal_swc, permitted in B2C HK consumer marketing/UI."
+      },
+      {
+        "token": "搵工",
+        "formal_replacement": "求職／找工作",
+        "rationale": "Cantonese verb-object ('搵工'); flagged in strict formal_swc, permitted in B2C HK consumer search/UI copy."
+      }
+    ],
+    "syntactic_calques": [
+      {
+        "id": "YUE_CALQUE_POSTVERBAL_XIAN",
+        "regex": "(我們|你們|他們|大家|我|你|請)(走|去|吃|食|看|試|試用|休息|離開|開始|登出|儲存)先(?=[，。！？；：、\\s]|$)",
+        "suggestion_template": "{1}先{2}",
+        "rationale": "Cantonese post-verbal adverb '先' ('走先') calqued into Standard Written Chinese; place '先' before the verb ('先走')."
+      },
+      {
+        "id": "YUE_CALQUE_COMPARATIVE_GUO",
+        "regex": "(好|快|慢|貴|平|多|少|高|低|早|遲|大|小|強|弱)過(預期|以前|往年|舊版|上月|去年|標準|對手|其他)",
+        "suggestion_template": "比{2}{1}",
+        "rationale": "Cantonese comparative 'Adj + 過 + NP' ('好過預期') calqued into Standard Written Chinese; use '比 + NP + Adj' ('比預期好') or '優於預期'."
+      },
+      {
+        "id": "YUE_CALQUE_INVERTED_DATIVE",
+        "regex": "給((?:一[份個封張本筆項條]|這[份個封張本筆項條])?[\\u4e00-\\u9fff]{1,4})(我|你|您|他|她|我們|你們|他們)(?=[，。！？；：、\\s]|$)",
+        "suggestion_template": "給{2}{1}",
+        "rationale": "Cantonese inverted double-object dative '畀 + DO + IO' calqued as '給一份報告我'; Standard Written Chinese requires '給我一份報告' or '寄一份報告給我'."
+      }
+    ]
+  },
+  "colloquial_yue_orthography": {
+    "universal_rules": [
+      {"wrong": "山卡啦", "right": "山卡罅", "jyutping": "saan1 kaa1 laa3", "rationale": "LSHK & standard Cantonese orthography uses '罅' (crevice), not phonetic '啦'."},
+      {"wrong": "山咔啦", "right": "山卡罅", "jyutping": "saan1 kaa1 laa3", "rationale": "Use '山卡罅' rather than ad-hoc phonetic characters."},
+      {"wrong": "訓覺", "right": "瞓覺", "jyutping": "fan3 gaau3", "rationale": "'瞓' (sleep) is distinct from '訓' (instruct/train)."},
+      {"wrong": "訓教", "right": "瞓覺", "jyutping": "fan3 gaau3", "rationale": "Homophone typo for '瞓覺' (unless literally meaning moral instruction)."},
+      {"wrong": "瞓教", "right": "瞓覺", "jyutping": "fan3 gaau3", "rationale": "Use '覺' (sleep) rather than homophonous '教'."},
+      {"wrong": "番工", "right": "返工", "jyutping": "faan1 gung1", "rationale": "Directional/return verb in Cantonese is '返' ('返工'), not '番'."},
+      {"wrong": "翻工", "right": "返工", "jyutping": "faan1 gung1", "rationale": "Directional/return verb in Cantonese is '返' ('返工'), not '翻'."},
+      {"wrong": "番學", "right": "返學", "jyutping": "faan1 hok6", "rationale": "Use '返學' (go to school) with '返'."},
+      {"wrong": "翻學", "right": "返學", "jyutping": "faan1 hok6", "rationale": "Use '返學' (go to school) with '返'."},
+      {"wrong": "番屋企", "right": "返屋企", "jyutping": "faan1 uk1 kei2", "rationale": "Use '返屋企' (return home) with '返'."},
+      {"wrong": "翻屋企", "right": "返屋企", "jyutping": "faan1 uk1 kei2", "rationale": "Use '返屋企' (return home) with '返'."},
+      {"wrong": "食曬", "right": "食晒", "jyutping": "sik6 saai3", "rationale": "Cantonese completive particle saai3 uses '晒' (or commercial '哂'), whereas '曬' is reserved for sun-drying/exposure ('防曬', '曬太陽')."},
+      {"wrong": "睇曬", "right": "睇晒", "jyutping": "tai2 saai3", "rationale": "Completive particle saai3 uses '晒', not solar '曬'."},
+      {"wrong": "做曬", "right": "做晒", "jyutping": "zou6 saai3", "rationale": "Completive particle saai3 uses '晒', not solar '曬'."},
+      {"wrong": "唔該曬", "right": "唔該晒", "jyutping": "m4 goi1 saai3", "rationale": "Completive/emphatic particle saai3 uses '晒', not solar '曬'."},
+      {"wrong": "防晒", "right": "防曬", "jyutping": "fong4 saai3", "rationale": "UV/sun protection in Traditional Chinese must use '曬' ('防曬'), not '晒'."},
+      {"wrong": "晒時間", "right": "嘥時間", "jyutping": "saai1 si4 gaan3", "rationale": "'嘥' (saai1, waste) is distinct from '晒'/'曬' (saai3)."},
+      {"wrong": "曬時間", "right": "嘥時間", "jyutping": "saai1 si4 gaan3", "rationale": "'嘥' (saai1, waste) is distinct from '曬' (saai3, sun-dry)."},
+      {"wrong": "哂時間", "right": "嘥時間", "jyutping": "saai1 si4 gaan3", "rationale": "'嘥' (saai1, waste) is distinct from '哂'."},
+      {"wrong": "晒氣", "right": "嘥氣", "jyutping": "saai1 hei3", "rationale": "Use '嘥氣' (waste breath/effort) with '嘥' (saai1)."},
+      {"wrong": "曬氣", "right": "嘥氣", "jyutping": "saai1 hei3", "rationale": "Use '嘥氣' (waste breath/effort) with '嘥' (saai1)."},
+      {"wrong": "晒心機", "right": "嘥心機", "jyutping": "saai1 sam1 gei1", "rationale": "Use '嘥心機' (waste effort) with '嘥' (saai1)."},
+      {"wrong": "揾", "right": "搵", "jyutping": "wan2", "rationale": "Traditional Cantonese orthography uses '搵' (U+6435), whereas '揾' (U+63FE) is the Simplified variant."},
+      {"wrong": "厄錢", "right": "呃錢", "jyutping": "aak1 cin2", "rationale": "'呃' (deceive/cheat) takes the mouth radical ('呃錢'), not '厄'."},
+      {"wrong": "扼錢", "right": "呃錢", "jyutping": "aak1 cin2", "rationale": "'呃' (deceive/cheat) is distinct from '扼' (clutch/grip)."},
+      {"wrong": "厄人", "right": "呃人", "jyutping": "aak1 jan4", "rationale": "Use '呃人' (deceive people) with '呃'."},
+      {"wrong": "早抖", "right": "早唞", "jyutping": "zou2 tau2", "rationale": "Cantonese '唞' (tau2, rest/breathe) takes the mouth radical ('早唞'), not '抖' (tremble)."},
+      {"wrong": "抖下氣", "right": "唞下氣", "jyutping": "tau2 haa5 hei3", "rationale": "Use '唞' (rest/breathe) rather than '抖'."},
+      {"wrong": "界刀", "right": "𠝹刀", "jyutping": "gaai3 dou1", "rationale": "Box cutter / utility knife in Cantonese is '𠝹刀' (U+20779 '𠝹', cut/score), not homophonous '界刀'."},
+      {"wrong": "鎅刀", "right": "𠝹刀", "jyutping": "gaai3 dou1", "rationale": "Standard Cantonese orthography prefers knife-radical '𠝹刀' over '鎅刀'."},
+      {"wrong": "禁掣", "right": "撳掣", "jyutping": "gam6 zai3", "rationale": "Cantonese '撳' (gam6, press a button) is distinct from homophonous '禁' (forbid)."},
+      {"wrong": "襟掣", "right": "撳掣", "jyutping": "gam6 zai3", "rationale": "Use hand-radical '撳掣' (press button) rather than '襟掣'."},
+      {"wrong": "簡嘢", "right": "揀嘢", "jyutping": "gaan2 je5", "rationale": "'揀' (gaan2, choose/select) is distinct from '簡' (simple)."},
+      {"wrong": "揀野", "right": "揀嘢", "jyutping": "gaan2 je5", "rationale": "Cantonese '嘢' (je5, thing/stuff) takes the mouth radical, not '野' (wild)."},
+      {"wrong": "買野", "right": "買嘢", "jyutping": "maai5 je5", "rationale": "Use '買嘢' with '嘢' (thing), not '野'."},
+      {"wrong": "食野", "right": "食嘢", "jyutping": "sik6 je5", "rationale": "Use '食嘢' with '嘢' (thing/food), not '野'."},
+      {"wrong": "咩野", "right": "咩嘢", "jyutping": "me1 je5", "rationale": "Use '咩嘢' with '嘢', not '野'."},
+      {"wrong": "冇野", "right": "冇嘢", "jyutping": "mou5 je5", "rationale": "Use '冇嘢' with '嘢', not '野'."},
+      {"wrong": "亂嗡", "right": "亂噏", "jyutping": "lyun6 ngap1", "rationale": "Cantonese '噏' (ngap1, babble/talk nonsense) is written '亂噏', not '亂嗡'."},
+      {"wrong": "過黎", "right": "過嚟", "jyutping": "gwo3 lai4", "rationale": "Directional '嚟' (lai4, come) takes the mouth radical, not surname/literary '黎'."},
+      {"wrong": "入黎", "right": "入嚟", "jyutping": "jap6 lai4", "rationale": "Use '入嚟' with '嚟'."},
+      {"wrong": "出黎", "right": "出嚟", "jyutping": "ceot1 lai4", "rationale": "Use '出嚟' with '嚟'."},
+      {"wrong": "返黎", "right": "返嚟", "jyutping": "faan1 lai4", "rationale": "Use '返嚟' with '嚟'."},
+      {"wrong": "係度", "right": "喺度", "jyutping": "hai2 dou6", "rationale": "Locative/progressive '喺度' (hai2 dou6, here / in the middle of) uses '喺', not copula '係' (hai6)."},
+      {"wrong": "係邊度", "right": "喺邊度", "jyutping": "hai2 bin1 dou6", "rationale": "Locative '喺邊度' (where at) uses '喺' (hai2), not '係' (hai6)."}
+    ],
+    "lshk_strict_rules": [
+      {
+        "wrong": "俾",
+        "right": "畀",
+        "jyutping": "bei2",
+        "carveouts": ["俾使", "俾斯麥"],
+        "rationale": "LSHK Jyutping 正字 prescribes '畀' (bei2) for Cantonese 'give / let' ('畀錢', '畀啲意見'); commercial UI mode (--standard ui / --cantonese-mode ui-yue) permits conventional '俾'."
+      },
+      {
+        "wrong": "哂",
+        "right": "晒",
+        "jyutping": "saai3",
+        "carveouts": ["哂笑", "不值一哂"],
+        "rationale": "In classical/modern orthography '哂' (san2) means 'smirk' ('不值一哂'); LSHK 正字 prescribes '晒' (saai3) for the Cantonese completive particle ('唔該晒', '食晒'), whereas commercial UI mode permits conventional '哂'."
+      },
+      {
+        "wrong_regex": "(試|睇|諗|等|問|聽|望|傾|玩|坐|唞)吓",
+        "right_template": "{1}下",
+        "jyutping": "haa5",
+        "rationale": "LSHK 正字 uses '下' (haa5) for the post-verbal delimitative aspect ('諗下', '試下') and reserves '吓' (haa2) for the standalone interjection; commercial UI mode permits conventional '試吓'."
+      },
+      {
+        "wrong": "宜家",
+        "right": "而家",
+        "jyutping": "ji4 gaa1",
+        "carveouts": ["宜家家居", "宜家傢俬"],
+        "rationale": "LSHK 正字 prescribes '而家' (now); '宜家' is accepted as a conventional variant in commercial UI mode (and preserved for IKEA '宜家家居')."
+      },
+      {
+        "wrong": "依家",
+        "right": "而家",
+        "jyutping": "ji4 gaa1",
+        "carveouts": [],
+        "rationale": "LSHK 正字 prescribes '而家' (now) rather than phonetic '依家'."
+      },
+      {
+        "wrong": "咁樣",
+        "right": "噉樣",
+        "jyutping": "gam2 joeng2",
+        "carveouts": [],
+        "rationale": "LSHK distinguishes demonstrative '噉' (gam2, '噉樣' = like this) from degree adverb '咁' (gam3, '咁好' = so good); commercial UI mode allows merged '咁樣'."
+      }
+    ]
+  }
+}

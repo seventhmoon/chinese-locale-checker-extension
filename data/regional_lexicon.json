@@ -1,0 +1,521 @@
+{
+  "schema_version": "1.0.0",
+  "description": "Everyday and technical software regional lexicon across zh-Hant-HK, zh-Hant-MO, zh-Hant-TW, zh-Hans-CN, zh-Hans-SG, and zh-Hans-MY.",
+  "entries": [
+    {
+      "id": "default",
+      "english": "default",
+      "category": "software_ui",
+      "variants": {
+        "zh-Hant-HK": "預設",
+        "zh-Hant-MO": "預設",
+        "zh-Hant-TW": "預設",
+        "zh-Hans-CN": "默认",
+        "zh-Hans-SG": "默认",
+        "zh-Hans-MY": "默认"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["默認"],
+        "zh-Hant-MO": ["默認"],
+        "zh-Hant-TW": ["默認"]
+      }
+    },
+    {
+      "id": "settings",
+      "english": "settings",
+      "category": "software_ui",
+      "variants": {
+        "zh-Hant-HK": "設定",
+        "zh-Hant-MO": "設定",
+        "zh-Hant-TW": "設定",
+        "zh-Hans-CN": "设置",
+        "zh-Hans-SG": "设置",
+        "zh-Hans-MY": "设置"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["默認設置", "系統設置", "偏好設置"],
+        "zh-Hant-TW": ["默認設置", "系統設置", "偏好設置", "設置"]
+      }
+    },
+    {
+      "id": "memory_ram",
+      "english": "memory (RAM)",
+      "category": "computing",
+      "variants": {
+        "zh-Hant-HK": "記憶體",
+        "zh-Hant-MO": "記憶體",
+        "zh-Hant-TW": "記憶體",
+        "zh-Hans-CN": "内存",
+        "zh-Hans-SG": "内存",
+        "zh-Hans-MY": "内存"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["內存"],
+        "zh-Hant-MO": ["內存"],
+        "zh-Hant-TW": ["內存"]
+      }
+    },
+    {
+      "id": "cache",
+      "english": "cache",
+      "category": "computing",
+      "variants": {
+        "zh-Hant-HK": "快取",
+        "zh-Hant-MO": "快取",
+        "zh-Hant-TW": "快取",
+        "zh-Hans-CN": "缓存",
+        "zh-Hans-SG": "缓存",
+        "zh-Hans-MY": "缓存"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["緩存"],
+        "zh-Hant-MO": ["緩存"],
+        "zh-Hant-TW": ["緩存"]
+      }
+    },
+    {
+      "id": "software",
+      "english": "software",
+      "category": "computing",
+      "variants": {
+        "zh-Hant-HK": "軟件",
+        "zh-Hant-MO": "軟件",
+        "zh-Hant-TW": "軟體",
+        "zh-Hans-CN": "软件",
+        "zh-Hans-SG": "软件",
+        "zh-Hans-MY": "软件"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["軟體"],
+        "zh-Hant-MO": ["軟體"],
+        "zh-Hant-TW": ["軟件"],
+        "zh-Hans-CN": ["软体"]
+      }
+    },
+    {
+      "id": "hardware",
+      "english": "hardware",
+      "category": "computing",
+      "variants": {
+        "zh-Hant-HK": "硬件",
+        "zh-Hant-MO": "硬件",
+        "zh-Hant-TW": "硬體",
+        "zh-Hans-CN": "硬件",
+        "zh-Hans-SG": "硬件",
+        "zh-Hans-MY": "硬件"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["硬體"],
+        "zh-Hant-MO": ["硬體"],
+        "zh-Hant-TW": ["硬件"],
+        "zh-Hans-CN": ["硬体"]
+      }
+    },
+    {
+      "id": "firmware",
+      "english": "firmware",
+      "category": "computing",
+      "variants": {
+        "zh-Hant-HK": "韌體",
+        "zh-Hant-MO": "韌體",
+        "zh-Hant-TW": "韌體",
+        "zh-Hans-CN": "固件",
+        "zh-Hans-SG": "固件",
+        "zh-Hans-MY": "固件"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["固件"],
+        "zh-Hant-TW": ["固件"]
+      }
+    },
+    {
+      "id": "network",
+      "english": "network",
+      "category": "computing",
+      "variants": {
+        "zh-Hant-HK": "網絡",
+        "zh-Hant-MO": "網絡",
+        "zh-Hant-TW": "網路",
+        "zh-Hans-CN": "网络",
+        "zh-Hans-SG": "网络",
+        "zh-Hans-MY": "网络"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["網路"],
+        "zh-Hant-MO": ["網路"],
+        "zh-Hant-TW": ["網絡"],
+        "zh-Hans-CN": ["网路"]
+      }
+    },
+    {
+      "id": "internet",
+      "english": "Internet",
+      "category": "computing",
+      "variants": {
+        "zh-Hant-HK": "互聯網",
+        "zh-Hant-MO": "互聯網",
+        "zh-Hant-TW": "網際網路",
+        "zh-Hans-CN": "互联网",
+        "zh-Hans-SG": "互联网",
+        "zh-Hans-MY": "互联网"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["網際網路"],
+        "zh-Hant-TW": ["互聯網"]
+      }
+    },
+    {
+      "id": "related_information",
+      "english": "related information",
+      "category": "software_ui",
+      "variants": {
+        "zh-Hant-HK": "相關資訊",
+        "zh-Hant-MO": "相關資訊",
+        "zh-Hant-TW": "相關資訊",
+        "zh-Hans-CN": "相关信息",
+        "zh-Hans-SG": "相关资讯",
+        "zh-Hans-MY": "相关资讯"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["相關信息"],
+        "zh-Hant-TW": ["相關信息"]
+      }
+    },
+    {
+      "id": "information_technology",
+      "english": "information technology (IT)",
+      "category": "computing",
+      "variants": {
+        "zh-Hant-HK": "資訊科技",
+        "zh-Hant-MO": "資訊科技",
+        "zh-Hant-TW": "資訊科技",
+        "zh-Hans-CN": "信息技术",
+        "zh-Hans-SG": "资讯科技",
+        "zh-Hans-MY": "资讯科技"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["信息技術"],
+        "zh-Hant-TW": ["信息技術"]
+      }
+    },
+    {
+      "id": "video",
+      "english": "video",
+      "category": "media",
+      "variants": {
+        "zh-Hant-HK": "影片",
+        "zh-Hant-MO": "影片",
+        "zh-Hant-TW": "影片",
+        "zh-Hans-CN": "视频",
+        "zh-Hans-SG": "视频",
+        "zh-Hans-MY": "视频"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["視頻"],
+        "zh-Hant-MO": ["視頻"],
+        "zh-Hant-TW": ["視頻"]
+      }
+    },
+    {
+      "id": "audio",
+      "english": "audio",
+      "category": "media",
+      "variants": {
+        "zh-Hant-HK": "音訊",
+        "zh-Hant-MO": "音訊",
+        "zh-Hant-TW": "音訊",
+        "zh-Hans-CN": "音频",
+        "zh-Hans-SG": "音频",
+        "zh-Hans-MY": "音频"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["音頻"],
+        "zh-Hant-TW": ["音頻"]
+      }
+    },
+    {
+      "id": "folder",
+      "english": "folder",
+      "category": "software_ui",
+      "variants": {
+        "zh-Hant-HK": "資料夾",
+        "zh-Hant-MO": "資料夾",
+        "zh-Hant-TW": "資料夾",
+        "zh-Hans-CN": "文件夹",
+        "zh-Hans-SG": "文件夹",
+        "zh-Hans-MY": "文件夹"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["文件夾"],
+        "zh-Hant-TW": ["文件夾"]
+      }
+    },
+    {
+      "id": "server",
+      "english": "server",
+      "category": "computing",
+      "variants": {
+        "zh-Hant-HK": "伺服器",
+        "zh-Hant-MO": "伺服器",
+        "zh-Hant-TW": "伺服器",
+        "zh-Hans-CN": "服务器",
+        "zh-Hans-SG": "服务器",
+        "zh-Hans-MY": "服务器"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["服務器"],
+        "zh-Hant-MO": ["服務器"],
+        "zh-Hant-TW": ["服務器"]
+      }
+    },
+    {
+      "id": "database",
+      "english": "database",
+      "category": "computing",
+      "variants": {
+        "zh-Hant-HK": "資料庫",
+        "zh-Hant-MO": "資料庫",
+        "zh-Hant-TW": "資料庫",
+        "zh-Hans-CN": "数据库",
+        "zh-Hans-SG": "数据库",
+        "zh-Hans-MY": "数据库"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-TW": ["數據庫"]
+      }
+    },
+    {
+      "id": "mouse",
+      "english": "mouse (computer)",
+      "category": "computing",
+      "variants": {
+        "zh-Hant-HK": "滑鼠",
+        "zh-Hant-MO": "滑鼠",
+        "zh-Hant-TW": "滑鼠",
+        "zh-Hans-CN": "鼠标",
+        "zh-Hans-SG": "鼠标",
+        "zh-Hans-MY": "鼠标"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["鼠標"],
+        "zh-Hant-TW": ["鼠標"]
+      }
+    },
+    {
+      "id": "printer",
+      "english": "printer",
+      "category": "computing",
+      "variants": {
+        "zh-Hant-HK": "打印機",
+        "zh-Hant-MO": "打印機",
+        "zh-Hant-TW": "印表機",
+        "zh-Hans-CN": "打印机",
+        "zh-Hans-SG": "打印机",
+        "zh-Hans-MY": "打印机"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["印表機"],
+        "zh-Hant-TW": ["打印機"]
+      }
+    },
+    {
+      "id": "paste",
+      "english": "paste",
+      "category": "software_ui",
+      "variants": {
+        "zh-Hant-HK": "貼上",
+        "zh-Hant-MO": "貼上",
+        "zh-Hant-TW": "貼上",
+        "zh-Hans-CN": "粘贴",
+        "zh-Hans-SG": "粘贴",
+        "zh-Hans-MY": "粘贴"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["粘貼", "黏貼"],
+        "zh-Hant-TW": ["粘貼", "黏貼"]
+      }
+    },
+    {
+      "id": "cut_edit",
+      "english": "cut (clipboard)",
+      "category": "software_ui",
+      "variants": {
+        "zh-Hant-HK": "剪下",
+        "zh-Hant-MO": "剪下",
+        "zh-Hant-TW": "剪下",
+        "zh-Hans-CN": "剪切",
+        "zh-Hans-SG": "剪切",
+        "zh-Hans-MY": "剪切"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-TW": ["剪切"]
+      }
+    },
+    {
+      "id": "refresh",
+      "english": "refresh",
+      "category": "software_ui",
+      "variants": {
+        "zh-Hant-HK": "重新整理",
+        "zh-Hant-MO": "重新整理",
+        "zh-Hant-TW": "重新整理",
+        "zh-Hans-CN": "刷新",
+        "zh-Hans-SG": "刷新",
+        "zh-Hans-MY": "刷新"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-TW": ["刷新頁面"]
+      }
+    },
+    {
+      "id": "loading",
+      "english": "loading",
+      "category": "software_ui",
+      "variants": {
+        "zh-Hant-HK": "載入中",
+        "zh-Hant-MO": "載入中",
+        "zh-Hant-TW": "載入中",
+        "zh-Hans-CN": "加载中",
+        "zh-Hans-SG": "加载中",
+        "zh-Hans-MY": "加载中"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["加載中"],
+        "zh-Hant-TW": ["加載中"]
+      }
+    },
+    {
+      "id": "upload",
+      "english": "upload",
+      "category": "software_ui",
+      "variants": {
+        "zh-Hant-HK": "上載",
+        "zh-Hant-MO": "上載",
+        "zh-Hant-TW": "上傳",
+        "zh-Hans-CN": "上传",
+        "zh-Hans-SG": "上传",
+        "zh-Hans-MY": "上传"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-TW": ["上載"]
+      }
+    },
+    {
+      "id": "hyperlink",
+      "english": "link / hyperlink",
+      "category": "software_ui",
+      "variants": {
+        "zh-Hant-HK": "連結",
+        "zh-Hant-MO": "連結",
+        "zh-Hant-TW": "連結",
+        "zh-Hans-CN": "链接",
+        "zh-Hans-SG": "链接",
+        "zh-Hans-MY": "链接"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["鏈接", "超鏈接"],
+        "zh-Hant-TW": ["鏈接", "超鏈接"]
+      }
+    },
+    {
+      "id": "sign_in",
+      "english": "sign in / log in",
+      "category": "software_ui",
+      "variants": {
+        "zh-Hant-HK": "登入",
+        "zh-Hant-MO": "登入",
+        "zh-Hant-TW": "登入",
+        "zh-Hans-CN": "登录",
+        "zh-Hans-SG": "登录",
+        "zh-Hans-MY": "登录"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["登錄"],
+        "zh-Hant-TW": ["登錄"]
+      }
+    },
+    {
+      "id": "postal_code",
+      "english": "postal code / ZIP code",
+      "category": "address_forms",
+      "variants": {
+        "zh-Hant-HK": "郵政編碼",
+        "zh-Hant-MO": "郵政編碼",
+        "zh-Hant-TW": "郵遞區號",
+        "zh-Hans-CN": "邮政编码",
+        "zh-Hans-SG": "邮政编码",
+        "zh-Hans-MY": "邮政编码"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["郵遞區號"],
+        "zh-Hant-TW": ["郵政編碼"]
+      },
+      "notes": "Hong Kong does not use postal codes domestically; keep postal code fields optional when region=HK."
+    },
+    {
+      "id": "country_or_region",
+      "english": "country or region",
+      "category": "address_forms",
+      "variants": {
+        "zh-Hant-HK": "國家/地區",
+        "zh-Hant-MO": "國家/地區",
+        "zh-Hant-TW": "國家/地區",
+        "zh-Hans-CN": "国家/地区",
+        "zh-Hans-SG": "国家/地区",
+        "zh-Hans-MY": "国家/地区"
+      }
+    },
+    {
+      "id": "this_phone",
+      "english": "this mobile phone (classifier)",
+      "category": "classifiers",
+      "variants": {
+        "zh-Hant-HK": "這部手機",
+        "zh-Hant-MO": "這部手機",
+        "zh-Hant-TW": "這支手機",
+        "zh-Hans-CN": "这部手机",
+        "zh-Hans-SG": "这部手机",
+        "zh-Hans-MY": "这部手机"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["這支手機"],
+        "zh-Hant-TW": ["這部手機"]
+      }
+    },
+    {
+      "id": "taxi",
+      "english": "taxi",
+      "category": "everyday",
+      "variants": {
+        "zh-Hant-HK": "的士",
+        "zh-Hant-MO": "的士",
+        "zh-Hant-TW": "計程車",
+        "zh-Hans-CN": "出租车",
+        "zh-Hans-SG": "德士",
+        "zh-Hans-MY": "德士"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["計程車", "出租車"],
+        "zh-Hant-TW": ["的士", "出租車"],
+        "zh-Hans-SG": ["出租车"]
+      }
+    },
+    {
+      "id": "bus",
+      "english": "bus",
+      "category": "everyday",
+      "variants": {
+        "zh-Hant-HK": "巴士",
+        "zh-Hant-MO": "巴士",
+        "zh-Hant-TW": "公車",
+        "zh-Hans-CN": "公交车",
+        "zh-Hans-SG": "巴士",
+        "zh-Hans-MY": "巴士"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["公交車"],
+        "zh-Hant-TW": ["公交車"]
+      }
+    }
+  ]
+}

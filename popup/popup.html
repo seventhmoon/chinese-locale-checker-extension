@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ZhOrtho — Local Chinese &amp; Cantonese Checker</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <div class="brand-mark" lang="zh-Hant-HK">正</div>
+      <div>
+        <div class="brand-title">ZhOrtho Checker</div>
+        <div class="brand-sub">
+          <span class="local-pill">🔒 100% Local</span>
+          <span>4-Axis Chinese &amp; Cantonese</span>
+        </div>
+      </div>
+    </div>
+    <label class="switch" title="Enable or disable ZhOrtho globally">
+      <input type="checkbox" id="toggle-enabled" />
+      <span class="slider"></span>
+    </label>
+  </header>
+
+  <main class="main">
+    <section class="card" id="site-card">
+      <div class="row site-row">
+        <div>
+          <div style="font-size:11px;color:#64748b;">Current site</div>
+          <div class="site-host" id="site-host">—</div>
+        </div>
+        <button type="button" class="btn" id="btn-toggle-site">Pause on site</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-label">Locale &amp; Orthography Standard</h2>
+
+      <div class="field-group">
+        <label class="field-label" for="select-profile">Target BCP-47 Profile</label>
+        <select id="select-profile"></select>
+      </div>
+
+      <div class="field-group">
+        <span class="field-label">Normative Standard</span>
+        <div class="segmented" role="group" aria-label="Normative standard">
+          <button type="button" class="seg-btn" data-standard="ui">UI / Commercial</button>
+          <button type="button" class="seg-btn" data-standard="official">Official / EDB / MoE</button>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="select-register">Written Register</label>
+        <select id="select-register">
+          <option value="auto">Auto (from target profile)</option>
+          <option value="formal_swc">Formal Standard Written Chinese (書面語)</option>
+          <option value="colloquial_yue">Written Cantonese (粵文 / colloquial_yue)</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="card card-nano">
+      <div class="section-label">
+        <span>✦ On-Device Gemini Nano AI</span>
+        <span id="nano-status-badge" class="status-badge status-unavailable">Checking…</span>
+      </div>
+
+      <div class="row">
+        <div>
+          <div style="font-weight:600;font-size:12.5px;">Use Local Gemini Nano</div>
+          <div style="font-size:11px;color:#64748b;">Contextual grammar &amp; disambiguation on-device</div>
+        </div>
+        <label class="switch switch-nano" title="Enable local Chrome Gemini Nano AI">
+          <input type="checkbox" id="toggle-nano" />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <p class="nano-detail" id="nano-detail">Checking Chrome Built-in AI availability…</p>
+
+      <div class="progress-wrap" id="nano-progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="nano-progress-fill"></div></div>
+        <div style="font-size:11px;color:#6d28d9;margin-top:3px;" id="nano-progress-text">Downloading model: 0%</div>
+      </div>
+
+      <div class="nano-actions" id="nano-actions">
+        <button type="button" class="btn btn-nano" id="btn-prepare-nano" style="display:none;">Download / Prepare Model</button>
+        <button type="button" class="btn" id="btn-recheck-nano">Re-check Status</button>
+      </div>
+
+      <div class="field-group" style="margin-top:9px;" id="nano-mode-group">
+        <span class="field-label">Gemini Nano Trigger</span>
+        <div class="segmented" role="group" aria-label="Gemini Nano trigger mode">
+          <button type="button" class="seg-btn" data-nano-mode="auto">Auto (after pause)</button>
+          <button type="button" class="seg-btn" data-nano-mode="manual">Manual (✦ button)</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <details>
+        <summary>Display &amp; Rule Categories</summary>
+        <div style="margin-top:8px;">
+          <div class="row">
+            <span style="font-size:12px;">Show inline underlines in text fields</span>
+            <label class="switch">
+              <input type="checkbox" id="toggle-underlines" />
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="row">
+            <span style="font-size:12px;">Show context-dependent advisories</span>
+            <label class="switch">
+              <input type="checkbox" id="toggle-advisories" />
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="categories-list" id="categories-list"></div>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <button type="button" class="btn btn-primary btn-block" id="btn-open-workbench">
+      Open Workbench (Playground, Localizer &amp; Glossary)
+    </button>
+    <div class="privacy-foot">Zero cloud APIs • Zero telemetry • All text stays on your device</div>
+  </footer>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

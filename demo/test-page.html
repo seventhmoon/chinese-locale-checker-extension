@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZhOrtho Extension Local Test Playground</title>
+  <style>
+    body {
+      max-width: 820px;
+      margin: 32px auto;
+      padding: 0 20px 60px;
+      font-family: "PingFang HK", "Noto Sans HK", "PingFang TC", "Microsoft JhengHei", "PingFang SC", sans-serif;
+      color: #0f172a;
+      background: #f8fafc;
+      line-height: 1.6;
+    }
+    h1 { font-size: 22px; margin-bottom: 6px; }
+    p.desc { color: #475569; margin-top: 0; margin-bottom: 24px; }
+    .box {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+    }
+    label {
+      display: block;
+      font-weight: 700;
+      font-size: 13.5px;
+      margin-bottom: 6px;
+    }
+    .hint {
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 10px;
+    }
+    input[type="text"], textarea, .editable {
+      width: 100%;
+      box-sizing: border-box;
+      font-family: inherit;
+      font-size: 15px;
+      line-height: 1.75;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: #ffffff;
+    }
+    textarea { min-height: 105px; }
+    .editable { min-height: 105px; outline: none; }
+    .editable:focus, textarea:focus, input[type="text"]:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+    }
+  </style>
+</head>
+<body>
+  <h1>ZhOrtho — Local Chrome Extension Test Page</h1>
+  <p class="desc">Click into any field below to test inline underlines, the floating status pill, 1-click fixes, profile switching, and optional local Gemini Nano checking.</p>
+
+  <div class="box">
+    <label for="f-input">1. Single-Line &lt;input type="text"&gt; — Japanese Kanji Bleed &amp; 1-to-Many Mergers</label>
+    <div class="hint">Try in <code>zh-Hant-HK</code> or <code>zh-Hant-TW</code> (UI standard).</div>
+    <input id="f-input" type="text" value="請確認注文確認及税込価格，點擊読込並檢查数値與黒色歩數，截止今日必需完成注冊，請稍後！" />
+  </div>
+
+  <div class="box">
+    <label for="f-textarea">2. Multi-Line &lt;textarea&gt; — HK EDB Educational vs. UI Standard &amp; Cantonese Calques</label>
+    <div class="hint">Switch between <code>zh-Hant-HK</code> (UI vs Official), <code>yue-Hant-HK</code>, and <code>zh-Hant-TW</code> in the floating pill or popup.</div>
+    <textarea id="f-textarea">請在系統帳戶群組完成身份驗證，並出示香港身份證以核實身分。載入中……
+我哋走先，這次表現好過預期，請給一份報告我。
+歡迎俾啲意見我哋，唔該哂！請在軟體設定清理緩存。</textarea>
+  </div>
+
+  <div class="box">
+    <label for="f-ce">3. Rich &lt;div contenteditable="true"&gt; — Regional Terms &amp; Protected Carve-Outs</label>
+    <div class="hint">Verify that domestic agencies, 中環荷里活道, 冰糖燉雪梨, and 《…》 titles are preserved while mismatched terms (隱私權政策 / 計程車 / 視頻) are flagged for <code>zh-Hant-HK</code>.</div>
+    <div id="f-ce" class="editable" contenteditable="true">請閱讀我們的隱私權政策及個人信息聲明，搭乘計程車前往中環荷里活道聯絡香港個人資料（私隱）專員公署，查閱《個人資料（私隱）條例》並品嚐冰糖燉雪梨。觀看最新視頻與Cookies設定。</div>
+  </div>
+</body>
+</html>

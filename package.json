@@ -1,0 +1,31 @@
+{
+  "name": "chinese-locale-checker-extension",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "100% local Chrome extension for Chinese & Cantonese orthography, regional lexicon, and grammar checking in text fields with optional on-device Gemini Nano AI.",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "package": "bash scripts/package.sh",
+    "sync-skill": "bash scripts/sync-skill-data.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seventhmoon/chinese-locale-checker-extension.git"
+  },
+  "homepage": "https://github.com/seventhmoon/chinese-locale-checker-extension#readme",
+  "keywords": [
+    "chrome-extension",
+    "manifest-v3",
+    "chinese",
+    "cantonese",
+    "orthography",
+    "grammar-checker",
+    "spell-checker",
+    "gemini-nano",
+    "built-in-ai",
+    "local-first",
+    "localization"
+  ],
+  "author": "Fung Lam (seventhmoon)",
+  "license": "MIT"
+}

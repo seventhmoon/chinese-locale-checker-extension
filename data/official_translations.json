@@ -1,0 +1,347 @@
+{
+  "schema_version": "1.0.0",
+  "description": "Official statutory, legal/IP, international organization, and sovereign/toponym translations across HK, MO, TW, CN, SG, and MY, plus named-entity and homograph carve-outs.",
+  "terms": [
+    {
+      "id": "privacy_policy",
+      "english": "Privacy Policy",
+      "aliases": ["privacy policy", "privacy notice"],
+      "category": "legal_statutory",
+      "translations": {
+        "zh-Hant-HK": "私隱政策",
+        "zh-Hant-MO": "私隱政策",
+        "zh-Hant-TW": "隱私權政策",
+        "zh-Hans-CN": "隐私政策",
+        "zh-Hans-SG": "隐私政策",
+        "zh-Hans-MY": "隐私政策"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["隱私政策", "隱私權政策"],
+        "zh-Hant-MO": ["隱私政策", "隱私權政策"],
+        "zh-Hant-TW": ["私隱政策", "隱私政策"],
+        "zh-Hans-CN": ["私隐政策"]
+      },
+      "notes": "Aligned with HK PCPD ('個人資料（私隱）條例'), Taiwan '個人資料保護法' / commercial '隱私權政策', and PRC PIPL '隐私政策'."
+    },
+    {
+      "id": "personal_data",
+      "english": "Personal Data",
+      "aliases": ["personal information", "personal data", "PII"],
+      "category": "legal_statutory",
+      "translations": {
+        "zh-Hant-HK": "個人資料",
+        "zh-Hant-MO": "個人資料",
+        "zh-Hant-TW": "個人資料",
+        "zh-Hans-CN": "个人信息",
+        "zh-Hans-SG": "个人资料",
+        "zh-Hans-MY": "个人资料"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["個人信息"],
+        "zh-Hant-MO": ["個人信息"],
+        "zh-Hant-TW": ["個人信息"],
+        "zh-Hans-SG": ["个人信息"]
+      },
+      "notes": "PRC PIPL ('个人信息保护法') uses '个人信息', whereas HK PDPO, TW PDPA, SG PDPA ('个人资料保护法令'), and MY PDPA use '個人資料' / '个人资料'."
+    },
+    {
+      "id": "terms_of_service",
+      "english": "Terms of Service",
+      "aliases": ["terms of service", "ToS", "terms and conditions"],
+      "category": "legal_statutory",
+      "translations": {
+        "zh-Hant-HK": "服務條款",
+        "zh-Hant-MO": "服務條款",
+        "zh-Hant-TW": "服務條款",
+        "zh-Hans-CN": "服务条款",
+        "zh-Hans-SG": "服务条款",
+        "zh-Hans-MY": "服务条款"
+      }
+    },
+    {
+      "id": "intellectual_property",
+      "english": "Intellectual Property",
+      "aliases": ["intellectual property", "IP rights", "IPR"],
+      "category": "legal_statutory",
+      "translations": {
+        "zh-Hant-HK": "知識產權",
+        "zh-Hant-MO": "知識產權",
+        "zh-Hant-TW": "智慧財產權",
+        "zh-Hans-CN": "知识产权",
+        "zh-Hans-SG": "知识产权",
+        "zh-Hans-MY": "知识产权"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["智慧財產權"],
+        "zh-Hant-TW": ["知識產權"]
+      },
+      "notes": "Preserve domestic agency names such as '香港知識產權署' and '經濟部智慧財產局' verbatim without rewriting root nouns."
+    },
+    {
+      "id": "copyright",
+      "english": "Copyright",
+      "aliases": ["copyright"],
+      "category": "legal_statutory",
+      "translations": {
+        "zh-Hant-HK": "版權",
+        "zh-Hant-MO": "著作權",
+        "zh-Hant-TW": "著作權",
+        "zh-Hans-CN": "著作权",
+        "zh-Hans-SG": "版权",
+        "zh-Hans-MY": "版权"
+      },
+      "notes": "HK Copyright Ordinance ('版權條例') and SG Copyright Act use '版權'/'版权'; TW ('著作權法') and PRC ('著作权法') statutory titles use '著作權'/'著作权' (with '版權所有'/'版权所有' idiomatic in UI footers)."
+    },
+    {
+      "id": "asean",
+      "english": "ASEAN",
+      "aliases": ["Association of Southeast Asian Nations", "asean"],
+      "category": "international_org",
+      "translations": {
+        "zh-Hant-HK": "東盟",
+        "zh-Hant-MO": "東盟",
+        "zh-Hant-TW": "東協",
+        "zh-Hans-CN": "东盟",
+        "zh-Hans-SG": "亚细安",
+        "zh-Hans-MY": "东协"
+      },
+      "alternates": {
+        "zh-Hans-MY": ["东盟"]
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["東協", "亞細安"],
+        "zh-Hant-TW": ["東盟", "亞細安"],
+        "zh-Hans-CN": ["东协", "亚细安"],
+        "zh-Hans-SG": ["东协"]
+      },
+      "notes": "Singapore Chinese Media / Normative Council standardizes on '亚细安'; Taiwan uses '東協' ('東南亞國家協會'); HK and Mainland China use '東盟'/'东盟'."
+    },
+    {
+      "id": "apec",
+      "english": "APEC",
+      "aliases": ["Asia-Pacific Economic Cooperation", "apec"],
+      "category": "international_org",
+      "translations": {
+        "zh-Hant-HK": "亞太經合組織",
+        "zh-Hant-MO": "亞太經合組織",
+        "zh-Hant-TW": "亞太經濟合作會議",
+        "zh-Hans-CN": "亚太经合组织",
+        "zh-Hans-SG": "亚太经合组织",
+        "zh-Hans-MY": "亚太经合组织"
+      }
+    },
+    {
+      "id": "who",
+      "english": "World Health Organization",
+      "aliases": ["WHO", "world health organization"],
+      "category": "international_org",
+      "translations": {
+        "zh-Hant-HK": "世界衞生組織",
+        "zh-Hant-MO": "世界衞生組織",
+        "zh-Hant-TW": "世界衛生組織",
+        "zh-Hans-CN": "世界卫生组织",
+        "zh-Hans-SG": "世界卫生组织",
+        "zh-Hans-MY": "世界卫生组织"
+      },
+      "ui_overrides": {
+        "zh-Hant-HK": "世界衛生組織"
+      }
+    },
+    {
+      "id": "saudi_arabia",
+      "english": "Saudi Arabia",
+      "aliases": ["Kingdom of Saudi Arabia", "saudi arabia", "KSA"],
+      "category": "toponym",
+      "translations": {
+        "zh-Hant-HK": "沙特阿拉伯",
+        "zh-Hant-MO": "沙特阿拉伯",
+        "zh-Hant-TW": "沙烏地阿拉伯",
+        "zh-Hans-CN": "沙特阿拉伯",
+        "zh-Hans-SG": "沙特阿拉伯",
+        "zh-Hans-MY": "沙地阿拉伯"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["沙烏地阿拉伯"],
+        "zh-Hant-TW": ["沙特阿拉伯", "沙地阿拉伯"],
+        "zh-Hans-CN": ["沙乌地阿拉伯", "沙地阿拉伯"]
+      }
+    },
+    {
+      "id": "new_zealand",
+      "english": "New Zealand",
+      "aliases": ["new zealand", "NZ"],
+      "category": "toponym",
+      "translations": {
+        "zh-Hant-HK": "新西蘭",
+        "zh-Hant-MO": "新西蘭",
+        "zh-Hant-TW": "紐西蘭",
+        "zh-Hans-CN": "新西兰",
+        "zh-Hans-SG": "新西兰",
+        "zh-Hans-MY": "纽西兰"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["紐西蘭"],
+        "zh-Hant-TW": ["新西蘭"],
+        "zh-Hans-CN": ["纽西兰"]
+      }
+    },
+    {
+      "id": "sydney",
+      "english": "Sydney",
+      "aliases": ["sydney"],
+      "category": "toponym",
+      "translations": {
+        "zh-Hant-HK": "悉尼",
+        "zh-Hant-MO": "悉尼",
+        "zh-Hant-TW": "雪梨",
+        "zh-Hans-CN": "悉尼",
+        "zh-Hans-SG": "悉尼",
+        "zh-Hans-MY": "悉尼"
+      },
+      "notes": "Always protect culinary pear homographs ('冰糖燉雪梨', '川貝燉雪梨', '雪梨茶', '雪梨膏') from conversion to '悉尼'."
+    },
+    {
+      "id": "italy",
+      "english": "Italy",
+      "aliases": ["italy", "Italian Republic"],
+      "category": "toponym",
+      "translations": {
+        "zh-Hant-HK": "意大利",
+        "zh-Hant-MO": "意大利",
+        "zh-Hant-TW": "義大利",
+        "zh-Hans-CN": "意大利",
+        "zh-Hans-SG": "意大利",
+        "zh-Hans-MY": "意大利"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["義大利"],
+        "zh-Hant-TW": ["意大利"],
+        "zh-Hans-CN": ["义大利"]
+      }
+    },
+    {
+      "id": "qatar",
+      "english": "Qatar",
+      "aliases": ["qatar", "State of Qatar"],
+      "category": "toponym",
+      "translations": {
+        "zh-Hant-HK": "卡塔爾",
+        "zh-Hant-MO": "卡塔爾",
+        "zh-Hant-TW": "卡達",
+        "zh-Hans-CN": "卡塔尔",
+        "zh-Hans-SG": "卡塔尔",
+        "zh-Hans-MY": "卡塔尔"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["卡達"],
+        "zh-Hant-TW": ["卡塔爾"]
+      }
+    },
+    {
+      "id": "uae",
+      "english": "United Arab Emirates",
+      "aliases": ["UAE", "united arab emirates"],
+      "category": "toponym",
+      "translations": {
+        "zh-Hant-HK": "阿拉伯聯合酋長國",
+        "zh-Hant-MO": "阿拉伯聯合酋長國",
+        "zh-Hant-TW": "阿拉伯聯合大公國",
+        "zh-Hans-CN": "阿拉伯联合酋长国",
+        "zh-Hans-SG": "阿拉伯联合酋长国",
+        "zh-Hans-MY": "阿拉伯联合酋长国"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["阿拉伯聯合大公國"],
+        "zh-Hant-TW": ["阿拉伯聯合酋長國"]
+      }
+    },
+    {
+      "id": "georgia_country",
+      "english": "Georgia (country)",
+      "aliases": ["Georgia", "Republic of Georgia"],
+      "category": "toponym",
+      "translations": {
+        "zh-Hant-HK": "格魯吉亞",
+        "zh-Hant-MO": "格魯吉亞",
+        "zh-Hant-TW": "喬治亞",
+        "zh-Hans-CN": "格鲁吉亚",
+        "zh-Hans-SG": "格鲁吉亚",
+        "zh-Hans-MY": "格鲁吉亚"
+      },
+      "notes": "Never rewrite US state '喬治亞州' (HK/TW) / '佐治亚州' (CN/SG) to '格魯吉亞州'."
+    },
+    {
+      "id": "maldives",
+      "english": "Maldives",
+      "aliases": ["maldives", "Republic of Maldives"],
+      "category": "toponym",
+      "translations": {
+        "zh-Hant-HK": "馬爾代夫",
+        "zh-Hant-MO": "馬爾代夫",
+        "zh-Hant-TW": "馬爾地夫",
+        "zh-Hans-CN": "马尔代夫",
+        "zh-Hans-SG": "马尔代夫",
+        "zh-Hans-MY": "马尔代夫"
+      },
+      "forbidden_by_profile": {
+        "zh-Hant-HK": ["馬爾地夫"],
+        "zh-Hant-TW": ["馬爾代夫"]
+      }
+    },
+    {
+      "id": "costa_rica",
+      "english": "Costa Rica",
+      "aliases": ["costa rica"],
+      "category": "toponym",
+      "translations": {
+        "zh-Hant-HK": "哥斯達黎加",
+        "zh-Hant-MO": "哥斯達黎加",
+        "zh-Hant-TW": "哥斯大黎加",
+        "zh-Hans-CN": "哥斯达黎加",
+        "zh-Hans-SG": "哥斯达黎加",
+        "zh-Hans-MY": "哥斯达黎加"
+      }
+    },
+    {
+      "id": "hollywood",
+      "english": "Hollywood",
+      "aliases": ["hollywood"],
+      "category": "toponym",
+      "translations": {
+        "zh-Hant-HK": "荷里活",
+        "zh-Hant-MO": "荷里活",
+        "zh-Hant-TW": "好萊塢",
+        "zh-Hans-CN": "好莱坞",
+        "zh-Hans-SG": "好莱坞",
+        "zh-Hans-MY": "好莱坞"
+      },
+      "notes": "Protect Hong Kong local street & landmark names ('中環荷里活道', '荷里活道', '荷里活廣場') from conversion to '好萊塢道'/'好莱坞道'."
+    }
+  ],
+  "preserved_carveouts": [
+    {"span_hant": "香港個人資料（私隱）專員公署", "span_hans": "香港个人资料（私隐）专员公署", "type": "domestic_agency"},
+    {"span_hant": "個人資料（私隱）條例", "span_hans": "个人资料（私隐）条例", "type": "domestic_statute"},
+    {"span_hant": "香港身份證", "span_hans": "香港身份证", "type": "domestic_statute"},
+    {"span_hant": "香港永久性居民身份證", "span_hans": "香港永久性居民身份证", "type": "domestic_statute"},
+    {"span_hant": "香港知識產權署", "span_hans": "香港知识产权署", "type": "domestic_agency"},
+    {"span_hant": "經濟部智慧財產局", "span_hans": "经济部智慧财产局", "type": "domestic_agency"},
+    {"span_hant": "國民身分證", "span_hans": "国民身分证", "type": "domestic_statute"},
+    {"span_hant": "個人資料保護法", "span_hans": "个人资料保护法", "type": "domestic_statute"},
+    {"span_hant": "國家互聯網信息辦公室", "span_hans": "国家互联网信息办公室", "type": "domestic_agency"},
+    {"span_hant": "中華人民共和國個人信息保護法", "span_hans": "中华人民共和国个人信息保护法", "type": "domestic_statute"},
+    {"span_hant": "中環荷里活道", "span_hans": "中环荷里活道", "type": "local_street"},
+    {"span_hant": "荷里活道", "span_hans": "荷里活道", "type": "local_street"},
+    {"span_hant": "荷里活廣場", "span_hans": "荷里活广场", "type": "local_landmark"},
+    {"span_hant": "皇后大道中", "span_hans": "皇后大道中", "type": "local_street"},
+    {"span_hant": "皇后大道東", "span_hans": "皇后大道东", "type": "local_street"},
+    {"span_hant": "皇后大道西", "span_hans": "皇后大道西", "type": "local_street"},
+    {"span_hant": "喬治亞州", "span_hans": "佐治亚州", "type": "us_state_homograph"},
+    {"span_hant": "冰糖燉雪梨", "span_hans": "冰糖炖雪梨", "type": "culinary_homograph"},
+    {"span_hant": "川貝燉雪梨", "span_hans": "川贝炖雪梨", "type": "culinary_homograph"},
+    {"span_hant": "雪梨膏", "span_hans": "雪梨膏", "type": "culinary_homograph"},
+    {"span_hant": "雪梨茶", "span_hans": "雪梨茶", "type": "culinary_homograph"},
+    {"span_hant": "宜家家居", "span_hans": "宜家家居", "type": "brand_homograph"},
+    {"span_hant": "公証行", "span_hans": "公证行", "type": "hk_trade_term"},
+    {"span_hant": "芸芸眾生", "span_hans": "芸芸众生", "type": "classical_idiom"}
+  ]
+}

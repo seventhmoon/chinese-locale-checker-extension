@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ZhOrtho Workbench</title>
+  <link rel="stylesheet" href="sidepanel.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-title">
+      <span class="mark" lang="zh-Hant-HK">正</span>
+      <span>ZhOrtho Workbench</span>
+    </div>
+    <span class="local-badge">🔒 100% Local</span>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button type="button" class="tab-btn active" data-tab="checker">Checker</button>
+    <button type="button" class="tab-btn" data-tab="localizer">Localizer</button>
+    <button type="button" class="tab-btn" data-tab="glossary">Glossary</button>
+    <button type="button" class="tab-btn" data-tab="dictionary">Ignored</button>
+  </nav>
+
+  <main class="content">
+    <!-- TAB 1: CHECKER PLAYGROUND -->
+    <section id="tab-checker" class="tab-panel active">
+      <div class="controls-grid">
+        <select id="chk-profile" aria-label="Target Profile"></select>
+        <select id="chk-standard" aria-label="Normative Standard">
+          <option value="ui">UI / Commercial</option>
+          <option value="official">Official / EDB / MoE</option>
+        </select>
+      </div>
+
+      <textarea id="chk-input" lang="zh-Hant-HK" placeholder="Paste or type Chinese / Cantonese text to audit locally…&#10;Example: 請在系統帳戶群組完成身份驗證，點擊読込並檢查数値，載入中……"></textarea>
+
+      <div class="btn-row">
+        <button type="button" class="btn btn-primary" id="btn-fix-all" disabled>Fix All Certain</button>
+        <button type="button" class="btn btn-nano" id="btn-nano-check">✦ Gemini Nano Check</button>
+        <button type="button" class="btn" id="btn-nano-polish">✦ Nano Polish</button>
+        <button type="button" class="btn" id="btn-load-sample">Sample</button>
+        <button type="button" class="btn" id="btn-copy-chk">Copy</button>
+      </div>
+
+      <div class="summary-bar">
+        <span id="chk-summary">Enter Chinese or Cantonese text to inspect.</span>
+        <span id="chk-nano-status" class="status-note"></span>
+      </div>
+
+      <div id="chk-results" style="display:flex;flex-direction:column;gap:8px;"></div>
+    </section>
+
+    <!-- TAB 2: MULTI-LOCALE LOCALIZER -->
+    <section id="tab-localizer" class="tab-panel">
+      <div class="controls-grid">
+        <select id="loc-standard" aria-label="Localization Standard">
+          <option value="ui">UI / Commercial Standard</option>
+          <option value="official">Official / Educational Standard</option>
+        </select>
+        <button type="button" class="btn" id="btn-loc-sample">Load Carve-Out Sample</button>
+      </div>
+
+      <textarea id="loc-input" lang="zh-Hant-HK" placeholder="Enter Chinese text to localize across HK, MO, TW, CN, SG, MY while preserving street names, domestic agencies, 《titles》, and homographs…"></textarea>
+
+      <button type="button" class="btn btn-primary" id="btn-run-localize">Localize Across All Profiles</button>
+
+      <div id="loc-carveouts"></div>
+      <div id="loc-outputs" style="display:flex;flex-direction:column;gap:8px;"></div>
+    </section>
+
+    <!-- TAB 3: OFFLINE GLOSSARY & STATUTORY TERM LOOKUP -->
+    <section id="tab-glossary" class="tab-panel">
+      <div class="controls-grid">
+        <input type="text" id="gloss-query" placeholder="Search term (e.g. Privacy Policy, ASEAN, taxi, 軟件)…" />
+        <select id="gloss-standard" aria-label="Glossary Standard">
+          <option value="official">Official / Statutory</option>
+          <option value="ui">UI / Commercial</option>
+        </select>
+      </div>
+
+      <div class="btn-row">
+        <button type="button" class="btn" data-quick-term="Privacy Policy">Privacy Policy</button>
+        <button type="button" class="btn" data-quick-term="ASEAN">ASEAN</button>
+        <button type="button" class="btn" data-quick-term="Saudi Arabia">Saudi Arabia</button>
+        <button type="button" class="btn" data-quick-term="software">software</button>
+        <button type="button" class="btn" data-quick-term="taxi">taxi</button>
+      </div>
+
+      <div id="gloss-results" style="display:flex;flex-direction:column;gap:8px;"></div>
+    </section>
+
+    <!-- TAB 4: PERSONAL IGNORED DICTIONARY -->
+    <section id="tab-dictionary" class="tab-panel">
+      <div class="card">
+        <div style="font-weight:700;margin-bottom:6px;">Personal Ignored Words (Stored Locally)</div>
+        <div style="display:flex;gap:6px;margin-bottom:10px;">
+          <input type="text" id="dict-input" placeholder="Add word or phrase to ignore…" />
+          <button type="button" class="btn btn-primary" id="btn-dict-add">Add</button>
+        </div>
+        <div id="dict-list" class="word-chip-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="sidepanel.js"></script>
+</body>
+</html>

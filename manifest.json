@@ -1,0 +1,71 @@
+{
+  "manifest_version": 3,
+  "name": "ZhOrtho — Local Chinese & Cantonese Checker",
+  "version": "1.0.0",
+  "description": "100% local Chinese & Cantonese orthography, regional lexicon, and grammar checker for web text fields with optional on-device Gemini Nano AI.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "ZhOrtho — Local Chinese & Cantonese Checker",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "side_panel": {
+    "default_path": "sidepanel/sidepanel.html"
+  },
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "type": "module"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "contextMenus",
+    "sidePanel",
+    "offscreen"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self';"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*/*",
+        "http://*/*",
+        "file://*/*"
+      ],
+      "js": [
+        "content/content.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "core/zh-audit-engine.js",
+        "core/shards-loader.js",
+        "data/profiles_and_code.json",
+        "data/orthography_and_glyphs.json",
+        "data/cantonese.json",
+        "data/regional_lexicon.json",
+        "data/official_translations.json"
+      ],
+      "matches": [
+        "https://*/*",
+        "http://*/*",
+        "file://*/*"
+      ]
+    }
+  ]
+}
