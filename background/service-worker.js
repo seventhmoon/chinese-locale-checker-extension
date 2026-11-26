@@ -124,35 +124,42 @@ chrome.runtime.onStartup.addListener(() => {
   setupContextMenus();
 });
 
-chrome.contextMenus?.onClicked.addListener(async (info, tab) => {
+chrome.contextMenus?.onClicked.addListener((info, tab) => {
+  // Call sidePanel.open synchronously BEFORE any await to preserve Chrome's transient user gesture!
+  const openSidePanelSync = () => {
+    if (!chrome.sidePanel?.open) return Promise.resolve();
+    if (tab?.id) {
+      return chrome.sidePanel.open({ tabId: tab.id }).catch(() => {
+        if (tab?.windowId) {
+          return chrome.sidePanel.open({ windowId: tab.windowId }).catch(() => {});
+        }
+      });
+    }
+    if (tab?.windowId) {
+      return chrome.sidePanel.open({ windowId: tab.windowId }).catch(() => {});
+    }
+    return Promise.resolve();
+  };
+
   if (info.menuItemId === 'corrector-ai-check-selection') {
+    const openPromise = openSidePanelSync();
     if (info.selectionText) {
-      await chrome.storage.local.set({
+      chrome.storage.local.set({
         correctorAiPendingSelection: {
           text: info.selectionText,
           timestamp: Date.now()
         }
       });
     }
-    if (tab?.id && chrome.sidePanel?.open) {
-      try {
-        await chrome.sidePanel.open({ tabId: tab.id });
-      } catch {
-        // Fallback if windowId required
-        if (tab?.windowId) {
-          await chrome.sidePanel.open({ windowId: tab.windowId }).catch(() => {});
-        }
-      }
-    }
+    void openPromise;
   } else if (info.menuItemId === 'corrector-ai-open-sidepanel') {
-    if (tab?.windowId && chrome.sidePanel?.open) {
-      await chrome.sidePanel.open({ windowId: tab.windowId }).catch(() => {});
-    }
+    void openSidePanelSync();
   }
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (!message || message.target === 'offscreen') return false;
+  if (sender?.id && sender.id !== chrome.runtime.id) return false;
 
   (async () => {
     try {

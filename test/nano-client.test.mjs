@@ -151,3 +151,45 @@ test('GeminiNanoManager executes end-to-end local audit and polish with mocked L
 
   manager.destroy();
 });
+
+test('validateNanoFindings blocks AI edits inside placeholders, URLs, and inline code spans', () => {
+  const text = '請打開 `軟體設定` 並瀏覽 https://example.com/軟體 查看 {user_name} 的檔案。';
+  const rawIssues = [
+    { found: '軟體設定', suggestion: '軟件設定', category: 'word_choice', rationale: 'inside code' },
+    { found: '軟體', suggestion: '軟件', category: 'word_choice', rationale: 'inside URL' },
+    { found: 'user_name', suggestion: 'username', category: 'typo', rationale: 'inside placeholder' }
+  ];
+  const valid = validateNanoFindings(
+    rawIssues,
+    text,
+    { profile: 'zh-Hant-HK', register: 'formal_swc', standard: 'ui' },
+    [],
+    shards
+  );
+  assert.equal(valid.length, 0);
+});
+
+test('GeminiNanoManager destroys single-use sessions when clone() is unavailable to prevent context overflow', async () => {
+  let createdCount = 0;
+  let destroyedCount = 0;
+  const mockNoClone = {
+    LanguageModel: {
+      availability: async () => 'available',
+      create: async () => {
+        createdCount += 1;
+        return {
+          prompt: async () => '{"issues":[]}',
+          destroy: () => {
+            destroyedCount += 1;
+          }
+        };
+      }
+    }
+  };
+  const mgr = new GeminiNanoManager(mockNoClone);
+  await mgr.auditText('測試第一句中文內容', { profile: 'zh-Hant-HK', register: 'formal_swc', standard: 'ui' }, [], shards);
+  await mgr.auditText('測試第二句中文內容', { profile: 'zh-Hant-HK', register: 'formal_swc', standard: 'ui' }, [], shards);
+  assert.equal(createdCount, 2);
+  assert.equal(destroyedCount, 2);
+});
+

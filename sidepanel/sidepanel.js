@@ -8,7 +8,7 @@ import {
   getSuggestionOptions
 } from '../core/zh-audit-engine.js';
 import { loadBundledShards } from '../core/shards-loader.js';
-import { GeminiNanoManager } from '../core/nano-client.js';
+import { GeminiNanoManager, getPromptApiProvider } from '../core/nano-client.js';
 
 const nanoLocal = new GeminiNanoManager(globalThis);
 
@@ -149,6 +149,15 @@ function renderCheckerResults() {
   }
 }
 
+function activateTab(tabName) {
+  document.querySelectorAll('.tab-btn').forEach((b) => {
+    b.classList.toggle('active', b.dataset.tab === tabName);
+  });
+  document.querySelectorAll('.tab-panel').forEach((p) => {
+    p.classList.toggle('active', p.id === `tab-${tabName}`);
+  });
+}
+
 async function runNanoCheckInWorkbench() {
   const text = chkInput.value;
   if (!text.trim()) return;
@@ -159,28 +168,35 @@ async function runNanoCheckInWorkbench() {
   try {
     const profileMeta = shards.profiles_and_code.profiles[chkProfile.value];
     const register = settings.register === 'auto' ? profileMeta.default_register : settings.register;
+    const opts = {
+      profile: chkProfile.value,
+      register,
+      standard: chkStandard.value,
+      ignoredTerms: settings.ignoredTerms
+    };
 
-    const res = await nanoLocal.auditText(
-      text,
-      {
-        profile: chkProfile.value,
-        register,
-        standard: chkStandard.value,
-        ignoredTerms: settings.ignoredTerms
-      },
-      lastRuleFindings,
-      shards
-    );
+    let res;
+    if (getPromptApiProvider(globalThis).kind !== 'none') {
+      res = await nanoLocal.auditText(text, opts, lastRuleFindings, shards);
+    } else {
+      res = await chrome.runtime.sendMessage({
+        type: 'NANO_AUDIT',
+        force: true,
+        text,
+        options: opts,
+        existingFindings: lastRuleFindings
+      });
+    }
 
-    if (res.status === 'ok') {
-      lastNanoFindings = res.findings;
+    if (res?.status === 'ok') {
+      lastNanoFindings = res.findings || [];
       chkNanoStatus.textContent =
-        res.findings.length > 0
-          ? `✦ Gemini Nano added ${res.findings.length} suggestion(s)`
+        lastNanoFindings.length > 0
+          ? `✦ Gemini Nano added ${lastNanoFindings.length} suggestion(s)`
           : '✦ Gemini Nano: looks natural';
       renderCheckerResults();
     } else {
-      chkNanoStatus.textContent = res.detail || `Gemini Nano: ${res.status}`;
+      chkNanoStatus.textContent = res?.detail || `Gemini Nano: ${res?.status || 'unavailable'}`;
     }
   } catch (err) {
     chkNanoStatus.textContent = err?.message || 'Gemini Nano error';
@@ -199,24 +215,30 @@ async function runNanoPolishInWorkbench() {
   try {
     const profileMeta = shards.profiles_and_code.profiles[chkProfile.value];
     const register = settings.register === 'auto' ? profileMeta.default_register : settings.register;
+    const opts = {
+      profile: chkProfile.value,
+      register,
+      standard: chkStandard.value
+    };
 
-    const res = await nanoLocal.polishText(
-      text,
-      {
-        profile: chkProfile.value,
-        register,
-        standard: chkStandard.value
-      },
-      shards
-    );
+    let res;
+    if (getPromptApiProvider(globalThis).kind !== 'none') {
+      res = await nanoLocal.polishText(text, opts, shards);
+    } else {
+      res = await chrome.runtime.sendMessage({
+        type: 'NANO_POLISH',
+        text,
+        options: opts
+      });
+    }
 
-    if (res.status === 'ok' && res.text) {
+    if (res?.status === 'ok' && res.text) {
       chkInput.value = res.text;
       lastNanoFindings = [];
       chkNanoStatus.textContent = '✦ Polished locally with Gemini Nano';
       runCheckerAudit();
     } else {
-      chkNanoStatus.textContent = res.detail || `Gemini Nano: ${res.status}`;
+      chkNanoStatus.textContent = res?.detail || `Gemini Nano: ${res?.status || 'unavailable'}`;
     }
   } catch (err) {
     chkNanoStatus.textContent = err?.message || 'Gemini Nano error';
@@ -323,10 +345,23 @@ async function consumePendingSelection() {
   const data = await chrome.storage.local.get('correctorAiPendingSelection');
   const pending = data.correctorAiPendingSelection;
   if (pending?.text && Date.now() - pending.timestamp < 30000) {
+    activateTab('checker');
     chkInput.value = pending.text;
+    lastNanoFindings = [];
     await chrome.storage.local.remove('correctorAiPendingSelection');
     runCheckerAudit();
   }
+}
+
+async function addIgnoredWord() {
+  const val = dictInput.value.trim();
+  if (!val) return;
+  if (!settings.ignoredTerms.includes(val)) {
+    settings = await saveSettings({ ignoredTerms: [...settings.ignoredTerms, val] });
+  }
+  dictInput.value = '';
+  renderDictionary();
+  runCheckerAudit();
 }
 
 async function init() {
@@ -402,15 +437,12 @@ async function init() {
     });
   });
 
-  btnDictAdd.addEventListener('click', async () => {
-    const val = dictInput.value.trim();
-    if (!val) return;
-    if (!settings.ignoredTerms.includes(val)) {
-      settings = await saveSettings({ ignoredTerms: [...settings.ignoredTerms, val] });
+  btnDictAdd.addEventListener('click', addIgnoredWord);
+  dictInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      addIgnoredWord();
     }
-    dictInput.value = '';
-    renderDictionary();
-    runCheckerAudit();
   });
 
   chrome.storage?.onChanged?.addListener((changes, area) => {
@@ -418,6 +450,7 @@ async function init() {
     if (changes.correctorAiSettings?.newValue) {
       settings = changes.correctorAiSettings.newValue;
       renderDictionary();
+      runCheckerAudit();
     }
     if (changes.correctorAiPendingSelection?.newValue?.text) {
       consumePendingSelection();

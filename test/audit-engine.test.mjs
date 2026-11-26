@@ -209,3 +209,26 @@ test('getSuggestionOptions splits alternative suggestions cleanly while keeping 
   assert.deepEqual(getSuggestionOptions('請／謝謝'), ['請', '謝謝']);
   assert.deepEqual(getSuggestionOptions('國家/地區'), ['國家/地區']);
 });
+
+test('offsetToLineCol counts Unicode code points accurately after emojis and supplementary CJK', () => {
+  const sample = '😀 餅干\n𠝹刀與軟件';
+  const findings = auditText(sample, { profile: 'zh-Hant-TW', standard: 'ui' }, shards);
+  const cookie = findings.find((f) => f.found === '餅干');
+  const sw = findings.find((f) => f.found === '軟件');
+  assert.equal(cookie.line, 1);
+  assert.equal(cookie.column, 3); // '😀' (1) + ' ' (2) -> '餅' at col 3
+  assert.equal(sw.line, 2);
+  assert.equal(sw.column, 4); // '𠝹' (1) + '刀' (2) + '與' (3) -> '軟' at col 4
+});
+
+test('MIXED_PRONOUN_FORMALITY still detects standalone 您 even when preceded by 您們', () => {
+  const sample = '您們好！你今天有空嗎？請檢查您的電郵。';
+  const findings = auditText(sample, { profile: 'zh-Hant-HK', standard: 'ui' }, shards);
+  const typo = findings.find((f) => f.rule_id === 'COLLOCATION_OR_TYPO');
+  const mixed = findings.find((f) => f.rule_id === 'MIXED_PRONOUN_FORMALITY');
+  assert.equal(typo.found, '您們');
+  assert.ok(mixed, 'Expected MIXED_PRONOUN_FORMALITY on standalone 您');
+  assert.equal(mixed.start, sample.indexOf('您的'));
+  assert.deepEqual(getSuggestionOptions(mixed.suggestion), ['你', '您']);
+});
+

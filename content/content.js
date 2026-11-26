@@ -58,15 +58,38 @@
   let lastNanoCheckedText = '';
   let lastNanoStatusNote = '';
 
-  // Shadow DOM UI elements
+  // Shadow DOM UI elements & observers
   let shadowHost = null;
   let shadowRoot = null;
   let underlineLayer = null;
   let pillBtn = null;
   let popoverEl = null;
   let mirrorEl = null;
+  let fieldResizeObserver = null;
+  let ceMutationObserver = null;
+  let blurHideTimer = null;
 
   const CJK_RE = /[\u3400-\u4dbf\u4e00-\u9fff\u{20000}-\u{2ceaf}]/u;
+  const SKIP_CE_TAGS = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEMPLATE']);
+
+  function isExtensionContextValid() {
+    try {
+      return Boolean(globalThis.chrome?.runtime?.id);
+    } catch {
+      return false;
+    }
+  }
+
+  function teardownIfOrphaned() {
+    if (isExtensionContextValid()) return false;
+    detachFromField();
+    if (shadowHost?.parentNode) {
+      shadowHost.parentNode.removeChild(shadowHost);
+    }
+    shadowHost = null;
+    shadowRoot = null;
+    return true;
+  }
 
   function isHostDisabled() {
     const host = location.hostname || '';
@@ -87,7 +110,6 @@
       return SUPPORTED_INPUT_TYPES.has(type) && !el.disabled && !el.readOnly;
     }
     if (el.isContentEditable) {
-      // Find the root contenteditable container
       return true;
     }
     return false;
@@ -109,7 +131,6 @@
           cur.getAttribute('contenteditable') === 'plaintext-only' ||
           cur.getAttribute('role') === 'textbox'
         ) {
-          // Continue climbing only if parent is also contenteditable
           if (!cur.parentElement?.isContentEditable) {
             return cur;
           }
@@ -128,7 +149,8 @@
   }
 
   /**
-   * Extract plain text + text-node offset map for contenteditable elements.
+   * Extract plain text + text-node offset map for contenteditable elements,
+   * rejecting <script>, <style>, and embedded contenteditable="false" widgets.
    */
   function extractContentEditableModel(root) {
     const segments = [];
@@ -137,6 +159,10 @@
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT, {
       acceptNode(node) {
         if (node.nodeType === Node.ELEMENT_NODE) {
+          if (SKIP_CE_TAGS.has(node.tagName)) return NodeFilter.FILTER_REJECT;
+          if (node !== root && node.getAttribute?.('contenteditable') === 'false') {
+            return NodeFilter.FILTER_REJECT;
+          }
           if (node.tagName === 'BR') return NodeFilter.FILTER_ACCEPT;
           return NodeFilter.FILTER_SKIP;
         }
@@ -215,12 +241,31 @@
     style.textContent = `
       :host {
         all: initial;
+        color-scheme: light;
         font-family: "PingFang HK", "Noto Sans HK", "PingFang TC", "Microsoft JhengHei", "PingFang SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         font-size: 13px;
         line-height: 1.45;
         color: #111827;
       }
       * { box-sizing: border-box; }
+
+      .zh-mirror {
+        position: fixed;
+        top: -99999px;
+        left: -99999px;
+        visibility: hidden;
+        pointer-events: none;
+        overflow: hidden;
+        margin: 0;
+      }
+      .zh-mirror span {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font: inherit;
+        letter-spacing: inherit;
+        word-spacing: inherit;
+      }
 
       .zh-underlines {
         position: fixed;
@@ -562,7 +607,11 @@
       }
     });
 
-    shadowRoot.append(style, underlineLayer, pillBtn, popoverEl);
+    mirrorEl = document.createElement('div');
+    mirrorEl.className = 'zh-mirror';
+    mirrorEl.setAttribute('aria-hidden', 'true');
+
+    shadowRoot.append(style, mirrorEl, underlineLayer, pillBtn, popoverEl);
     document.documentElement.appendChild(shadowHost);
   }
 
@@ -595,13 +644,7 @@
   // ---------------------------------------------------------------------------
 
   function ensureMirror() {
-    if (!mirrorEl) {
-      mirrorEl = document.createElement('div');
-      mirrorEl.setAttribute('aria-hidden', 'true');
-      mirrorEl.style.cssText =
-        'position:fixed;top:-99999px;left:-99999px;visibility:hidden;pointer-events:none;overflow:hidden;';
-      document.documentElement.appendChild(mirrorEl);
-    }
+    ensureShadowUI();
     return mirrorEl;
   }
 
@@ -611,53 +654,65 @@
     const elRect = el.getBoundingClientRect();
     const isSingleLine = el.tagName === 'INPUT';
 
+    const borderLeft = parseFloat(cs.borderLeftWidth) || 0;
+    const borderTop = parseFloat(cs.borderTopWidth) || 0;
+    const borderRight = parseFloat(cs.borderRightWidth) || 0;
+    const borderBottom = parseFloat(cs.borderBottomWidth) || 0;
+
     const copyProps = [
       'fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'fontVariant',
       'letterSpacing', 'wordSpacing', 'lineHeight', 'textTransform', 'textIndent',
       'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft',
       'borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth',
-      'boxSizing', 'direction', 'tabSize', 'wordBreak', 'overflowWrap'
+      'direction', 'tabSize', 'wordBreak', 'overflowWrap', 'textAlign'
     ];
     for (const p of copyProps) {
       mirror.style[p] = cs[p];
     }
     mirror.style.borderStyle = 'solid';
     mirror.style.borderColor = 'transparent';
-    mirror.style.width = `${elRect.width}px`;
+    mirror.style.boxSizing = 'border-box';
+
+    // Account for vertical scrollbar width inside <textarea> so soft-wrap columns match 1:1
+    const innerClientW = el.clientWidth > 0 ? el.clientWidth + borderLeft + borderRight : elRect.width;
+    mirror.style.width = `${isSingleLine ? elRect.width : innerClientW}px`;
     mirror.style.height = isSingleLine ? `${elRect.height}px` : 'auto';
+    mirror.style.display = isSingleLine ? 'flex' : 'block';
+    mirror.style.alignItems = isSingleLine ? 'center' : 'stretch';
     mirror.style.whiteSpace = isSingleLine ? 'pre' : 'pre-wrap';
     mirror.style.wordWrap = isSingleLine ? 'normal' : 'break-word';
 
-    // Build mirror DOM with <span data-fid="..."> around each finding
+    // Build mirror DOM with <span> around each finding
     mirror.innerHTML = '';
+    const flowContainer = isSingleLine ? document.createElement('span') : mirror;
+    if (isSingleLine) {
+      flowContainer.style.whiteSpace = 'pre';
+      mirror.appendChild(flowContainer);
+    }
+
     let cursor = 0;
     const spanMap = new Map();
     for (const f of findings) {
       if (f.start < cursor || f.end > text.length) continue;
       if (f.start > cursor) {
-        mirror.appendChild(document.createTextNode(text.slice(cursor, f.start)));
+        flowContainer.appendChild(document.createTextNode(text.slice(cursor, f.start)));
       }
       const mark = document.createElement('span');
       mark.textContent = text.slice(f.start, f.end);
-      mirror.appendChild(mark);
+      flowContainer.appendChild(mark);
       spanMap.set(f.id, mark);
       cursor = f.end;
     }
     if (cursor < text.length) {
-      mirror.appendChild(document.createTextNode(text.slice(cursor)));
+      flowContainer.appendChild(document.createTextNode(text.slice(cursor)));
     }
-    mirror.appendChild(document.createTextNode('\u200b'));
+    flowContainer.appendChild(document.createTextNode('\u200b'));
 
     const mirrorRect = mirror.getBoundingClientRect();
-    const padLeft = parseFloat(cs.borderLeftWidth) || 0;
-    const padTop = parseFloat(cs.borderTopWidth) || 0;
-    const padRight = parseFloat(cs.borderRightWidth) || 0;
-    const padBottom = parseFloat(cs.borderBottomWidth) || 0;
-
-    const clipLeft = elRect.left + padLeft;
-    const clipTop = elRect.top + padTop;
-    const clipRight = elRect.right - padRight;
-    const clipBottom = elRect.bottom - padBottom;
+    const clipLeft = elRect.left + borderLeft;
+    const clipTop = elRect.top + borderTop;
+    const clipRight = elRect.right - borderRight;
+    const clipBottom = elRect.bottom - borderBottom;
 
     const results = [];
     for (const f of findings) {
@@ -1132,9 +1187,41 @@
     return true;
   }
 
+  function getPrimarySuggestionLocal(suggestion) {
+    if (engineMod?.getPrimarySuggestion) {
+      return engineMod.getPrimarySuggestion(suggestion);
+    }
+    if (!suggestion) return '';
+    const raw = String(suggestion).trim();
+    if (raw.includes('國家/地區') || raw.includes('国家/地区')) return raw;
+    const parts = raw.split(/[／/]/).map((s) => s.trim()).filter(Boolean);
+    return parts[0] || raw;
+  }
+
+  function applyAllFixesLocal(text, findings) {
+    if (engineMod?.applyAllFixes) {
+      return engineMod.applyAllFixes(text, findings, { certainOnly: true });
+    }
+    const eligible = findings
+      .filter((f) => f.confidence === 'CERTAIN' && f.suggestion && f.found !== f.suggestion)
+      .sort((a, b) => b.start - a.start);
+    let updated = text;
+    let lastStart = Infinity;
+    let appliedCount = 0;
+    for (const f of eligible) {
+      if (f.end > lastStart) continue;
+      if (updated.slice(f.start, f.end) !== f.found) continue;
+      const rep = getPrimarySuggestionLocal(f.suggestion);
+      updated = updated.slice(0, f.start) + rep + updated.slice(f.end);
+      lastStart = f.start;
+      appliedCount += 1;
+    }
+    return { text: updated, appliedCount };
+  }
+
   function applySingleFindingToField(finding, chosenReplacement) {
     if (!activeEl) return;
-    const replacement = chosenReplacement ?? finding.suggestion;
+    const replacement = chosenReplacement ?? getPrimarySuggestionLocal(finding.suggestion);
     const text = getFieldText(activeEl);
 
     // Resolve current span in case text shifted slightly
@@ -1165,7 +1252,7 @@
 
     const text = getFieldText(activeEl);
     if (activeEl.tagName === 'TEXTAREA' || activeEl.tagName === 'INPUT') {
-      const { text: updated } = engineMod.applyAllFixes(text, findings, { certainOnly: true });
+      const { text: updated } = applyAllFixesLocal(text, findings);
       setNativeInputValue(activeEl, updated, updated.length);
     } else {
       // Apply right-to-left so earlier DOM offsets remain valid
@@ -1173,7 +1260,7 @@
       let lastStart = Infinity;
       for (const f of sorted) {
         if (f.end > lastStart) continue;
-        const primary = engineMod ? engineMod.getPrimarySuggestion(f.suggestion) : f.suggestion;
+        const primary = getPrimarySuggestionLocal(f.suggestion);
         replaceInContentEditable(activeEl, f.start, f.end, primary);
         lastStart = f.start;
       }
@@ -1188,6 +1275,7 @@
 
   async function ensureEngineLoaded() {
     if (engineMod && shards) return true;
+    if (!isExtensionContextValid()) return false;
     try {
       if (!engineMod) {
         engineMod = await import(chrome.runtime.getURL('core/zh-audit-engine.js'));
@@ -1204,7 +1292,8 @@
   }
 
   async function runRuleAuditNow() {
-    if (!activeEl || !settings.enabled || isHostDisabled()) {
+    if (teardownIfOrphaned()) return;
+    if (!activeEl || !settings.enabled || isHostDisabled() || !document.contains(activeEl)) {
       hideAllUI();
       return;
     }
@@ -1220,7 +1309,7 @@
     const loaded = await ensureEngineLoaded();
     if (loaded && engineMod && shards) {
       ruleFindings = engineMod.auditText(text, settings, shards);
-    } else {
+    } else if (isExtensionContextValid()) {
       try {
         const resp = await chrome.runtime.sendMessage({
           type: 'AUDIT_TEXT',
@@ -1231,6 +1320,8 @@
       } catch {
         ruleFindings = [];
       }
+    } else {
+      ruleFindings = [];
     }
 
     // Clear stale Nano findings when text changes
@@ -1252,6 +1343,7 @@
   }
 
   async function triggerNanoAudit(force = false) {
+    if (teardownIfOrphaned()) return;
     if (!activeEl || !settings.enabled || isHostDisabled()) return;
     if (!settings.useGeminiNano && !force) return;
 
@@ -1309,14 +1401,18 @@
   }
 
   async function updateSettings(partial) {
-    try {
-      const resp = await chrome.runtime.sendMessage({ type: 'SAVE_SETTINGS', settings: partial });
-      if (resp?.ok && resp.settings) {
-        settings = resp.settings;
-      } else {
+    if (isExtensionContextValid()) {
+      try {
+        const resp = await chrome.runtime.sendMessage({ type: 'SAVE_SETTINGS', settings: partial });
+        if (resp?.ok && resp.settings) {
+          settings = resp.settings;
+        } else {
+          settings = { ...settings, ...partial };
+        }
+      } catch {
         settings = { ...settings, ...partial };
       }
-    } catch {
+    } else {
       settings = { ...settings, ...partial };
     }
     lastNanoCheckedText = '';
@@ -1325,12 +1421,16 @@
   }
 
   async function ignoreTerm(term) {
-    try {
-      const resp = await chrome.runtime.sendMessage({ type: 'ADD_IGNORED_TERM', term });
-      if (resp?.ok && resp.settings) {
-        settings = resp.settings;
+    if (isExtensionContextValid()) {
+      try {
+        const resp = await chrome.runtime.sendMessage({ type: 'ADD_IGNORED_TERM', term });
+        if (resp?.ok && resp.settings) {
+          settings = resp.settings;
+        }
+      } catch {
+        settings.ignoredTerms = [...new Set([...(settings.ignoredTerms || []), term])];
       }
-    } catch {
+    } else {
       settings.ignoredTerms = [...new Set([...(settings.ignoredTerms || []), term])];
     }
     if (popoverMode === 'card') closePopover();
@@ -1342,7 +1442,11 @@
   // ---------------------------------------------------------------------------
 
   function attachToField(el) {
-    if (activeEl === el) return;
+    clearTimeout(blurHideTimer);
+    if (activeEl === el) {
+      runRuleAuditNow();
+      return;
+    }
     detachFromField();
 
     if (!el || !isFieldLargeEnough(el)) return;
@@ -1352,9 +1456,28 @@
     lastNanoStatusNote = '';
 
     activeEl.addEventListener('input', handleFieldInput);
+    activeEl.addEventListener('keyup', handleFieldKeyUp);
     activeEl.addEventListener('scroll', handleFieldReposition, { passive: true });
     activeEl.addEventListener('compositionstart', handleCompStart);
     activeEl.addEventListener('compositionend', handleCompEnd);
+
+    if (typeof ResizeObserver === 'function') {
+      fieldResizeObserver = new ResizeObserver(() => handleFieldReposition());
+      fieldResizeObserver.observe(activeEl);
+    }
+
+    if (activeEl.isContentEditable && typeof MutationObserver === 'function') {
+      ceMutationObserver = new MutationObserver(() => {
+        if (activeEl && getFieldText(activeEl) !== currentText) {
+          scheduleAudit();
+        }
+      });
+      ceMutationObserver.observe(activeEl, {
+        childList: true,
+        subtree: true,
+        characterData: true
+      });
+    }
 
     runRuleAuditNow();
   }
@@ -1362,8 +1485,18 @@
   function detachFromField() {
     clearTimeout(ruleTimer);
     clearTimeout(nanoTimer);
+    clearTimeout(blurHideTimer);
+    if (fieldResizeObserver) {
+      fieldResizeObserver.disconnect();
+      fieldResizeObserver = null;
+    }
+    if (ceMutationObserver) {
+      ceMutationObserver.disconnect();
+      ceMutationObserver = null;
+    }
     if (activeEl) {
       activeEl.removeEventListener('input', handleFieldInput);
+      activeEl.removeEventListener('keyup', handleFieldKeyUp);
       activeEl.removeEventListener('scroll', handleFieldReposition);
       activeEl.removeEventListener('compositionstart', handleCompStart);
       activeEl.removeEventListener('compositionend', handleCompEnd);
@@ -1377,6 +1510,13 @@
 
   function handleFieldInput() {
     scheduleAudit();
+  }
+
+  function handleFieldKeyUp(e) {
+    // Detect programmatic field clear on Enter submit (e.g. chat composers)
+    if (e.key === 'Enter' && activeEl && getFieldText(activeEl) !== currentText) {
+      scheduleAudit();
+    }
   }
 
   function handleCompStart() {
@@ -1401,10 +1541,40 @@
   document.addEventListener(
     'focusin',
     (e) => {
+      if (teardownIfOrphaned()) return;
       if (!settings.enabled || isHostDisabled()) return;
+      clearTimeout(blurHideTimer);
       const root = resolveEditableRoot(e.target);
       if (root) {
         attachToField(root);
+      }
+    },
+    true
+  );
+
+  document.addEventListener(
+    'focusout',
+    () => {
+      if (!activeEl) return;
+      clearTimeout(blurHideTimer);
+      blurHideTimer = setTimeout(() => {
+        if (!activeEl) return;
+        const focused = document.activeElement;
+        if (focused && (focused === activeEl || activeEl.contains(focused))) return;
+        if (focused && shadowHost && (focused === shadowHost || shadowHost.contains(focused))) return;
+        if (popoverMode) return;
+        detachFromField();
+      }, 180);
+    },
+    true
+  );
+
+  document.addEventListener(
+    'keydown',
+    (e) => {
+      if (e.key === 'Escape' && popoverMode) {
+        e.stopPropagation();
+        closePopover();
       }
     },
     true
@@ -1427,30 +1597,32 @@
   window.addEventListener('resize', handleFieldReposition, { passive: true });
 
   // Sync settings changes live from Popup / Side Panel
-  chrome.storage?.onChanged?.addListener((changes, area) => {
-    if (area === 'local' && changes.correctorAiSettings?.newValue) {
-      settings = changes.correctorAiSettings.newValue;
-      lastNanoCheckedText = '';
-      dismissedIds.clear();
-      if (!settings.enabled || isHostDisabled()) {
-        hideAllUI();
-      } else if (activeEl) {
-        runRuleAuditNow();
+  if (isExtensionContextValid()) {
+    chrome.storage?.onChanged?.addListener((changes, area) => {
+      if (area === 'local' && changes.correctorAiSettings?.newValue) {
+        settings = changes.correctorAiSettings.newValue;
+        lastNanoCheckedText = '';
+        dismissedIds.clear();
+        if (!settings.enabled || isHostDisabled()) {
+          hideAllUI();
+        } else if (activeEl) {
+          runRuleAuditNow();
+        }
       }
-    }
-  });
+    });
 
-  // Initial settings load
-  chrome.runtime
-    .sendMessage({ type: 'GET_SETTINGS' })
-    .then((resp) => {
-      if (resp?.ok && resp.settings) {
-        settings = resp.settings;
-      }
-      const focused = resolveEditableRoot(document.activeElement);
-      if (focused && settings.enabled && !isHostDisabled()) {
-        attachToField(focused);
-      }
-    })
-    .catch(() => {});
+    // Initial settings load
+    chrome.runtime
+      .sendMessage({ type: 'GET_SETTINGS' })
+      .then((resp) => {
+        if (resp?.ok && resp.settings) {
+          settings = resp.settings;
+        }
+        const focused = resolveEditableRoot(document.activeElement);
+        if (focused && settings.enabled && !isHostDisabled()) {
+          attachToField(focused);
+        }
+      })
+      .catch(() => {});
+  }
 })();

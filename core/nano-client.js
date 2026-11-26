@@ -46,6 +46,22 @@ export function getPromptApiProvider(globalObj = globalThis) {
   return { kind: 'none', api: null };
 }
 
+function withTimeout(promise, ms, fallbackMsg) {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error(fallbackMsg)), ms);
+    Promise.resolve(promise).then(
+      (val) => {
+        clearTimeout(timer);
+        resolve(val);
+      },
+      (err) => {
+        clearTimeout(timer);
+        reject(err);
+      }
+    );
+  });
+}
+
 /**
  * Check on-device Gemini Nano availability without triggering a download.
  */
@@ -61,7 +77,11 @@ export async function checkNanoAvailability(globalObj = globalThis) {
 
   try {
     if (provider.kind === 'LanguageModel') {
-      const rawStatus = await provider.api.availability();
+      const rawStatus = await withTimeout(
+        provider.api.availability(),
+        3000,
+        'Timed out querying Chrome Built-in AI availability.'
+      );
       // Chrome 138+ returns 'available' | 'downloadable' | 'downloading' | 'unavailable'
       // Earlier builds returned 'readily' | 'after-download' | 'no'
       const normalized = normalizeAvailability(rawStatus);
@@ -72,7 +92,11 @@ export async function checkNanoAvailability(globalObj = globalThis) {
       };
     }
 
-    const caps = await provider.api.capabilities();
+    const caps = await withTimeout(
+      provider.api.capabilities(),
+      3000,
+      'Timed out querying Chrome Built-in AI capabilities.'
+    );
     const normalized = normalizeAvailability(caps?.available);
     return {
       status: normalized,
@@ -211,9 +235,21 @@ export function validateNanoFindings(rawIssues, text, options = {}, existingFind
     }
   }
 
-  // Block 《…》 titles and preserved carve-outs from AI rewrites
-  for (const m of text.matchAll(/《[^》]+》/g)) {
-    for (let i = m.index; i < m.index + m[0].length; i++) blocked[i] = 1;
+  // Block 《…》 titles, code spans, URLs, placeholders, and preserved carve-outs from AI rewrites
+  const protectedPatterns = [
+    /《[^》]+》/g,
+    /```[\s\S]*?```/g,
+    /`[^`\n]+`/g,
+    /<[^>]+>/g,
+    /%(?:\d+\$)?[-+#0 ]*\d*(?:\.\d+)?[sdifFeEgGxXoOcpaA%]/g,
+    /\{\{[^{}\n]+\}\}/g,
+    /\{[A-Za-z0-9_., :#/-]+\}/g,
+    /https?:\/\/\S+/g
+  ];
+  for (const pat of protectedPatterns) {
+    for (const m of text.matchAll(pat)) {
+      for (let i = m.index; i < m.index + m[0].length; i++) blocked[i] = 1;
+    }
   }
   if (shards?.official?.preserved_carveouts) {
     for (const item of shards.official.preserved_carveouts) {
@@ -336,7 +372,7 @@ export class GeminiNanoManager {
           const params = await provider.api.params();
           if (params && typeof params.defaultTopK === 'number') {
             opts.topK = Math.min(3, params.maxTopK || 3);
-            opts.temperature = 0.2;
+            opts.temperature = Math.min(0.2, params.maxTemperature ?? 1);
           }
         }
       } catch {
@@ -374,29 +410,29 @@ export class GeminiNanoManager {
   }
 
   async _getWorkingSession(key, systemPrompt, signal) {
-    if (this.baseSession && this.baseSessionKey === key) {
-      if (typeof this.baseSession.clone === 'function') {
-        try {
-          return await this.baseSession.clone(signal ? { signal } : undefined);
-        } catch {
-          // Base session may have been invalidated; recreate below
-          this.destroy();
-        }
+    if (this.baseSession && this.baseSessionKey === key && typeof this.baseSession.clone === 'function') {
+      try {
+        const cloned = await this.baseSession.clone(signal ? { signal } : undefined);
+        return { session: cloned, ephemeral: true };
+      } catch {
+        // Base session may have been invalidated; recreate below
+        this.destroy();
       }
     }
 
     this.destroy();
-    this.baseSession = await this._createSession(systemPrompt, null, signal);
-    this.baseSessionKey = key;
-
-    if (typeof this.baseSession.clone === 'function') {
+    const created = await this._createSession(systemPrompt, null, signal);
+    if (typeof created.clone === 'function') {
+      this.baseSession = created;
+      this.baseSessionKey = key;
       try {
-        return await this.baseSession.clone(signal ? { signal } : undefined);
+        const cloned = await this.baseSession.clone(signal ? { signal } : undefined);
+        return { session: cloned, ephemeral: true };
       } catch {
-        return this.baseSession;
+        // Fall through to single-use session to avoid context accumulation
       }
     }
-    return this.baseSession;
+    return { session: created, ephemeral: true };
   }
 
   /**
@@ -423,8 +459,7 @@ export class GeminiNanoManager {
     });
 
     const key = `${options.profile}|${options.register}|${options.standard}`;
-    const workingSession = await this._getWorkingSession(key, systemPrompt, signal);
-    const isClone = workingSession !== this.baseSession;
+    const { session: workingSession, ephemeral } = await this._getWorkingSession(key, systemPrompt, signal);
 
     try {
       const userPrompt = buildAuditUserPrompt(clippedText, existingFindings);
@@ -444,7 +479,7 @@ export class GeminiNanoManager {
       const findings = validateNanoFindings(parsed, clippedText, options, existingFindings, shards);
       return { findings, status: 'ok' };
     } finally {
-      if (isClone) {
+      if (ephemeral) {
         try {
           workingSession.destroy?.();
         } catch {

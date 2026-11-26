@@ -233,9 +233,11 @@ export function offsetToLineCol(text, offset, baseLine = 1, baseCol = 1) {
     }
   }
   if (lastNl === -1) {
-    return { line, column: baseCol + offset };
+    const colPoints = Array.from(text.slice(0, offset)).length;
+    return { line, column: baseCol + colPoints };
   }
-  return { line, column: offset - lastNl };
+  const colPoints = Array.from(text.slice(lastNl + 1, offset)).length;
+  return { line, column: 1 + colPoints };
 }
 
 export function sortFindings(findings) {
@@ -492,18 +494,26 @@ export function auditText(text, options = {}, shards) {
   {
     const unquoted = maskSpans(workCarved, [/「[^」]*」/g, /“[^”]*”/g]);
     if (unquoted.includes('你') && unquoted.includes('您')) {
-      const idx = unquoted.indexOf('您');
-      claimAndRecord(
-        idx,
-        idx + 1,
-        'MIXED_PRONOUN_FORMALITY',
-        'CONTEXT_DEPENDENT',
-        'MEDIUM',
-        'formality',
-        '您',
-        '你',
-        "Avoid mixing casual '你' and honorific '您' within the same UI string or prose flow."
-      );
+      let searchPos = 0;
+      while (true) {
+        const idx = unquoted.indexOf('您', searchPos);
+        if (idx === -1) break;
+        if (!claimed[idx]) {
+          claimAndRecord(
+            idx,
+            idx + 1,
+            'MIXED_PRONOUN_FORMALITY',
+            'CONTEXT_DEPENDENT',
+            'MEDIUM',
+            'formality',
+            '您',
+            '你／您',
+            "Avoid mixing casual '你' and honorific '您' within the same UI string or prose flow."
+          );
+          break;
+        }
+        searchPos = idx + 1;
+      }
     }
   }
 

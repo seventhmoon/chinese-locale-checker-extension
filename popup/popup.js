@@ -146,7 +146,6 @@ async function init() {
   }
 
   renderSettingsUI();
-  await refreshNanoStatus();
 
   elEnabled.addEventListener('change', async () => {
     currentSettings = await saveSettings({ enabled: elEnabled.checked });
@@ -241,6 +240,8 @@ async function init() {
       chrome.tabs.create({ url: chrome.runtime.getURL('sidepanel/sidepanel.html') });
     }
   });
+
+  await refreshNanoStatus();
 }
 
 init();
